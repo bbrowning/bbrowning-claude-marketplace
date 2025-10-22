@@ -21,7 +21,7 @@ Plugin for reviewing GitHub pull requests with repository-specific review workfl
 
 ### Skills
 
-- **Reviewing Llama Stack Pull Requests**: Specialized workflow for reviewing pull requests in the llamastack/llama-stack repository with comprehensive checklist and validation steps
+- **Pull Request Review**: Comprehensive workflow for reviewing GitHub pull requests with support for repository-specific considerations
 
 ### Commands
 
@@ -45,15 +45,9 @@ Plugin for reviewing GitHub pull requests with repository-specific review workfl
 The command will:
 1. Verify the pull request format
 2. Confirm the PR to review with you
-3. Delegate to the appropriate repository-specific skill for detailed review
+3. Invoke the Pull Request Review skill for detailed analysis
 
-### Repository-Specific Workflows
-
-The plugin currently supports specialized review workflows for:
-
-- **llamastack/llama-stack**: Comprehensive review including CI checks, code structure, backwards compatibility, and alignment with PR description
-
-### Generic Review Process
+### Review Process
 
 All PR reviews follow this standard workflow:
 
@@ -99,23 +93,22 @@ Claude: I'll review pull request #456 from the llamastack/llama-stack repository
 [Provides categorized findings]
 ```
 
-### Example 2: Skill Auto-Discovery
+### Example 2: Direct Skill Invocation
 
 ```
-You: Can you review this Llama Stack PR: https://github.com/llamastack/llama-stack/pull/789
+You: Can you review this PR: https://github.com/llamastack/llama-stack/pull/789
 
-Claude: [Automatically invokes llama-stack-pr-review skill]
+Claude: [Invokes pr-review skill]
 [Performs comprehensive review]
 ```
 
-## Adding New Repository Workflows
+## Customizing Repository-Specific Guidelines
 
-To add review workflows for additional repositories:
+To add review guidelines for specific repositories, edit the "Repository-Specific Considerations" section in `skills/pr-review/SKILL.md`:
 
-1. Create a new skill directory under `skills/`
-2. Name it descriptively (e.g., `my-repo-pr-review`)
-3. Add `SKILL.md` with frontmatter specifying when to use it
-4. Define repository-specific review checklist and best practices
+1. Add a new subsection for your repository
+2. Include architecture patterns, coding standards, testing requirements, etc.
+3. Document common pitfalls or anti-patterns specific to that codebase
 
 ## License
 
