@@ -101,7 +101,7 @@ Analyze the document and extract relevant financial information.
 
 ## File Organization
 
-Use progressive disclosure for complex skills:
+Use progressive disclosure for complex skills within the skill directory:
 
 ```
 my-skill/
