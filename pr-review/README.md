@@ -1,0 +1,120 @@
+# PR Review Plugin
+
+Plugin for reviewing GitHub pull requests with repository-specific review workflows and best practices.
+
+## Installation
+
+### Via Marketplace
+
+```bash
+/plugin marketplace add https://github.com/bbrowning/bbrowning-claude-marketplace
+/plugin install pr-review@bbrowning-marketplace
+```
+
+### Direct Installation
+
+```bash
+/plugin install https://github.com/bbrowning/bbrowning-claude-marketplace/pr-review
+```
+
+## Components
+
+### Skills
+
+- **Reviewing Llama Stack Pull Requests**: Specialized workflow for reviewing pull requests in the llamastack/llama-stack repository with comprehensive checklist and validation steps
+
+### Commands
+
+- `/pr-review`: Review a pull request by providing a GitHub URL, org/repo#number format, or org/repo/pull/number format
+
+## Usage
+
+### Using the Command
+
+```bash
+# Review using full GitHub URL
+/pr-review https://github.com/llamastack/llama-stack/pull/123
+
+# Review using shorthand format
+/pr-review llamastack/llama-stack#123
+
+# Review using long format
+/pr-review llamastack/llama-stack/pull/123
+```
+
+The command will:
+1. Verify the pull request format
+2. Confirm the PR to review with you
+3. Delegate to the appropriate repository-specific skill for detailed review
+
+### Repository-Specific Workflows
+
+The plugin currently supports specialized review workflows for:
+
+- **llamastack/llama-stack**: Comprehensive review including CI checks, code structure, backwards compatibility, and alignment with PR description
+
+### Review Process (Llama Stack)
+
+The Llama Stack review workflow includes:
+
+1. **Prerequisites**
+   - Verify CI status checks are green
+   - Clone repository to isolated directory
+   - Fetch latest changes
+
+2. **Code Review**
+   - Analyze PR diff for code quality
+   - Check comment accuracy
+   - Flag backwards compatibility issues
+   - Verify changes align with PR description
+   - Assess code structure and maintainability
+
+3. **Output**
+   - Categorized findings (Critical, High, Medium, Low)
+   - Clear distinction between required and optional changes
+   - Summary written to `pr_review_results.md`
+
+## Requirements
+
+- GitHub CLI (`gh`) tool must be installed and authenticated
+- Git must be installed
+- Sufficient disk space for cloning repositories
+
+## Examples
+
+### Example 1: Review a Pull Request
+
+```
+You: /pr-review llamastack/llama-stack#456
+
+Claude: I'll review pull request #456 from the llamastack/llama-stack repository.
+[Confirms PR details]
+[Runs review workflow]
+[Provides categorized findings]
+```
+
+### Example 2: Skill Auto-Discovery
+
+```
+You: Can you review this Llama Stack PR: https://github.com/llamastack/llama-stack/pull/789
+
+Claude: [Automatically invokes llama-stack-pr-review skill]
+[Performs comprehensive review]
+```
+
+## Adding New Repository Workflows
+
+To add review workflows for additional repositories:
+
+1. Create a new skill directory under `skills/`
+2. Name it descriptively (e.g., `my-repo-pr-review`)
+3. Add `SKILL.md` with frontmatter specifying when to use it
+4. Define repository-specific review checklist and best practices
+
+## License
+
+Apache-2.0
+
+## Author
+
+Benjamin Browning
