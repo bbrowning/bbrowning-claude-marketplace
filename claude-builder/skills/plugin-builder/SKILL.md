@@ -40,7 +40,7 @@ All other components (commands, agents, skills, hooks, MCP servers) are optional
 4. **Add components** (skills, commands, etc.) as needed
 5. **Test locally**: `/plugin install /path/to/my-plugin`
 
-For a complete template, see `templates/plugin.json`.
+For complete templates, see `templates/plugin.json` and `templates/README.md`.
 
 ## Plugin Manifest
 
@@ -226,6 +226,13 @@ claude --debug          # See plugin loading details
 /plugin install /path/to/my-plugin
 ```
 
+**Validation steps:**
+- Plugin appears in `/plugin` list
+- No errors in `claude --debug` output
+- Commands appear in `/help` (if plugin has commands)
+- Skills are discoverable in conversation
+- All component paths resolve correctly
+
 ### Common Issues
 - **Plugin not found**: Check plugin.json exists at `.claude-plugin/plugin.json`
 - **Components not loaded**: Verify paths in plugin.json are relative and correct
@@ -296,6 +303,7 @@ Version strictly: breaking changes = MAJOR, features = MINOR, fixes = PATCH
 - `reference/plugin-structure.md`: Complete structure details and patterns
 - `reference/best-practices.md`: Comprehensive development guide
 - `templates/plugin.json`: Starting template for plugin manifest
+- `templates/README.md`: Starting template for plugin documentation
 
 ## Quick Decision Guide
 
