@@ -1,0 +1,201 @@
+---
+name: Writing Claude Skills
+description: Guides Claude in creating expert-level skills for Claude Code using best practices, progressive context reveal, and effective documentation patterns
+---
+
+# Writing Claude Skills
+
+This skill provides comprehensive guidance for creating high-quality Claude Code skills that are modular, discoverable, and effective.
+
+## What Are Claude Skills?
+
+Skills are modular capabilities that extend Claude's functionality. They are:
+- **Model-invoked**: Claude autonomously decides when to use them based on descriptions
+- **Discoverable**: Found through descriptive `SKILL.md` files
+- **Shareable**: Can be personal, project-specific, or plugin-bundled
+
+Skills differ from slash commands (user-invoked) - they're capabilities Claude chooses to use.
+
+## Core Structure
+
+Every skill requires a directory containing `SKILL.md` with YAML frontmatter:
+
+```markdown
+---
+name: Your Skill Name
+description: Clear, specific one-line description
+---
+
+# Instructions and content
+```
+
+For detailed structure information including optional files, see `reference/skill-structure.md`.
+
+## Key Principles
+
+### 1. Be Concise
+- Keep SKILL.md under 500 lines
+- Only include what Claude doesn't already know
+- Use progressive disclosure with reference files
+
+### 2. Clear Naming
+- Use gerund form (verb + -ing): "Processing PDFs", "Analyzing Data"
+- Avoid vague names: "Helper", "Utils", "Manager"
+- Make names descriptive and specific
+
+### 3. Specific Descriptions
+- Write in third person
+- Include key terms for discoverability
+- Clearly indicate when to use the skill
+- Maximum 1024 characters
+
+### 4. Progressive Context Reveal
+- Start with essential information in SKILL.md
+- Reference detailed docs when needed
+- Organize supporting files logically
+
+## Creating a Skill
+
+### Quick Start
+
+1. Create skill directory: `mkdir -p .claude/skills/my-skill`
+2. Create `SKILL.md` with frontmatter
+3. Write clear name and description
+4. Add concise instructions
+5. Test with Claude
+
+For a complete template, see `templates/skill-template.md`.
+
+### Writing Effective Instructions
+
+**DO:**
+- Provide concrete examples
+- Create clear step-by-step workflows
+- Include validation/feedback loops
+- Use consistent terminology
+- Reference additional files for details
+
+**DON'T:**
+- Include time-sensitive information
+- Over-explain what Claude already knows
+- Use vague or ambiguous language
+- Cram all details into SKILL.md
+
+### Setting Degrees of Freedom
+
+Match specificity to task requirements:
+- **High freedom**: Flexible, creative tasks
+- **Low freedom**: Fragile, sequence-critical operations
+
+Example:
+```markdown
+# Low freedom (specific)
+When processing invoice PDFs:
+1. Extract date field using format YYYY-MM-DD
+2. Validate amount matches total
+3. Output to invoices.json
+
+# High freedom (flexible)
+Analyze the document and extract relevant financial information.
+```
+
+## File Organization
+
+Use progressive disclosure for complex skills:
+
+```
+my-skill/
+├── SKILL.md              # Concise entry point
+├── reference/            # Detailed documentation
+│   ├── api-docs.md
+│   └── examples.md
+├── scripts/              # Helper utilities
+│   └── validator.py
+└── templates/            # Starting templates
+    └── output.json
+```
+
+See `reference/skill-structure.md` for detailed organization patterns.
+
+## Best Practices
+
+For comprehensive best practices, see `reference/best-practices.md`. Key highlights:
+
+### Description Writing
+```markdown
+# Good
+description: Guides creation of React components following project conventions, including TypeScript types, styled-components, and test patterns
+
+# Vague
+description: Helps with React stuff
+```
+
+### Documentation
+- Write skills for the current Claude model's capabilities
+- Avoid time-sensitive information
+- Test iteratively with real scenarios
+- Create evaluation cases before extensive docs
+
+### Tool Restrictions
+Limit tool access when needed:
+```yaml
+---
+name: Read-Only Analysis
+allowed-tools: [Read, Grep, Glob]
+---
+```
+
+## Examples
+
+See `reference/examples.md` for complete skill examples including:
+- Simple focused skills
+- Complex multi-file skills
+- Skills with tool restrictions
+- Skills with progressive disclosure
+
+## Testing and Iteration
+
+1. Start with core functionality
+2. Test with Claude on real scenarios
+3. Refine based on actual usage
+4. Add supporting docs as needed
+5. Keep SKILL.md concise, move details to reference files
+
+## Common Patterns
+
+### Single-Purpose Skill
+Focus on one specific capability with clear instructions.
+
+### Multi-Step Workflow
+Provide structured steps with validation between stages.
+
+### Context-Heavy Skill
+Use progressive disclosure: essentials in SKILL.md, details in reference files.
+
+### Tool-Restricted Skill
+Limit tools for safety-critical or read-only operations.
+
+## Troubleshooting
+
+**Skill not discovered**: Check description specificity and key terms
+**Too verbose**: Move details to reference files
+**Unclear when to use**: Improve description and add usage examples
+**Inconsistent results**: Reduce degrees of freedom, add specific steps
+
+## References
+
+- `reference/skill-structure.md`: Complete structure and organization details
+- `reference/best-practices.md`: Comprehensive best practices guide
+- `reference/examples.md`: Real-world skill examples
+- `templates/skill-template.md`: Starting template for new skills
+
+## Quick Decision Guide
+
+Creating a new skill? Ask:
+1. **Is it focused?** One capability per skill
+2. **Is the description clear?** Third person, specific, key terms
+3. **Is SKILL.md concise?** Under 500 lines, essential info only
+4. **Do I need reference files?** Use progressive disclosure for complex topics
+5. **Have I tested it?** Try with real scenarios before finalizing
+
+When writing skills, remember: skills extend Claude's knowledge, so focus on what Claude doesn't already know and make it easily discoverable through clear descriptions and names.

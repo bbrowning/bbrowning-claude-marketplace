@@ -1,0 +1,13 @@
+{
+  "name": "bbrowning-marketplace",
+  "owner": {
+    "name": "bbrowning"
+  },
+  "plugins": [
+    {
+      "name": "skill-builder",
+      "source": "./skill-builder",
+      "description": "Expert guidance for creating effective Claude Code skills with best practices and progressive context reveal"
+    }
+  ]
+}

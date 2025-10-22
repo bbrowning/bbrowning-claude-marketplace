@@ -55,7 +55,10 @@ Location: `.claude-plugin/plugin.json`
   "name": "my-plugin-name",
   "version": "1.0.0",
   "description": "Brief description of plugin purpose",
-  "author": "Your Name <email@example.com>",
+  "author": {
+    "name": "Your Name",
+    "email": "email@example.com"
+  },
   "homepage": "https://docs.example.com",
   "repository": "https://github.com/username/repo",
   "license": "MIT",
@@ -64,7 +67,7 @@ Location: `.claude-plugin/plugin.json`
 ```
 
 - `description`: Brief plugin purpose
-- `author`: Contact information
+- `author`: Author information object with `name` (required) and `email` (optional)
 - `homepage`: Documentation URL
 - `repository`: Source code link
 - `license`: Open source license identifier
@@ -140,20 +143,58 @@ Example:
 2. **Create plugin directory** with your plugin name
 3. **Create plugin manifest** at `.claude-plugin/plugin.json`
 4. **Add custom components** (commands, agents, skills, etc.)
-5. **Create marketplace manifest** (if managing multiple plugins)
-6. **Install and test** the plugin
+5. **Create marketplace manifest** at `.claude-plugin/marketplace.json` (if managing multiple plugins)
+6. **Add marketplace to Claude Code**
+7. **Install and test** the plugin
 
 ### Installation Methods
 
-- **Interactive menu**: Recommended for discovery
-  ```bash
-  claude install
-  ```
-- **Direct CLI**: For specific plugins
-  ```bash
-  claude install <plugin-name>
-  ```
-- **Repository-level configuration**: For team-wide plugins
+#### Adding a Marketplace
+
+First, add your marketplace to Claude Code:
+
+```bash
+# Add local marketplace
+/plugin marketplace add /path/to/your/marketplace
+
+# Or use interactive menu
+/plugin
+```
+
+#### Installing Plugins
+
+Once marketplace is added:
+
+```bash
+# Install specific plugin
+/plugin install plugin-name@marketplace-name
+
+# Or browse interactively
+/plugin
+```
+
+Then select "Browse Plugins" to see all available plugins.
+
+#### Direct Installation
+
+You can also install directly without adding a marketplace:
+
+```bash
+/plugin install /path/to/plugin/directory
+```
+
+#### Managing Plugins
+
+```bash
+# Enable a plugin
+/plugin enable plugin-name@marketplace-name
+
+# Disable a plugin
+/plugin disable plugin-name@marketplace-name
+
+# Uninstall a plugin
+/plugin uninstall plugin-name@marketplace-name
+```
 
 ## Best Practices
 
@@ -206,6 +247,114 @@ This shows:
 - Agent registration
 - Any errors or warnings
 
+## Local Development Workflow
+
+### Setting Up Your Marketplace
+
+1. **Create marketplace directory**:
+   ```bash
+   mkdir my-marketplace
+   cd my-marketplace
+   ```
+
+2. **Create marketplace manifest**:
+   ```bash
+   mkdir .claude-plugin
+   ```
+
+   Create `.claude-plugin/marketplace.json`:
+   ```json
+   {
+     "name": "my-marketplace",
+     "owner": {
+       "name": "Your Name"
+     },
+     "plugins": []
+   }
+   ```
+
+3. **Initialize git** (recommended):
+   ```bash
+   git init
+   ```
+
+### Creating and Testing a Plugin
+
+1. **Create plugin directory**:
+   ```bash
+   mkdir my-plugin
+   mkdir my-plugin/.claude-plugin
+   ```
+
+2. **Create plugin.json**:
+   ```json
+   {
+     "name": "my-plugin",
+     "version": "1.0.0",
+     "description": "My plugin description"
+   }
+   ```
+
+3. **Add components** (skills, commands, etc.)
+
+4. **Add to marketplace.json**:
+   ```json
+   {
+     "plugins": [
+       {
+         "name": "my-plugin",
+         "source": "./my-plugin",
+         "description": "My plugin description"
+       }
+     ]
+   }
+   ```
+
+5. **Add marketplace to Claude Code**:
+   ```bash
+   /plugin marketplace add /path/to/my-marketplace
+   ```
+
+6. **Install and test**:
+   ```bash
+   /plugin install my-plugin@my-marketplace
+   ```
+
+7. **Verify installation**:
+   - Check `/help` for new commands
+   - Skills should be automatically available
+   - Use `/plugin` to see installed plugins
+
+### Updating During Development
+
+When you modify a plugin:
+
+1. **Uninstall old version**:
+   ```bash
+   /plugin uninstall my-plugin@my-marketplace
+   ```
+
+2. **Reinstall updated version**:
+   ```bash
+   /plugin install my-plugin@my-marketplace
+   ```
+
+Or restart Claude Code to reload plugins.
+
+### Testing Checklist
+
+Before sharing your plugin:
+
+- [ ] plugin.json has required fields (name, version)
+- [ ] All paths in plugin.json are relative and start with `./`
+- [ ] Skills have proper YAML frontmatter with name and description
+- [ ] Commands have proper frontmatter
+- [ ] Plugin installs without errors
+- [ ] Components work as expected
+- [ ] Tested with `claude --debug` for any warnings
+- [ ] Documentation is clear and complete
+- [ ] Version number follows semantic versioning
+
 ## Distribution
 
 ### Marketplace Structure
@@ -214,21 +363,96 @@ A marketplace is a collection of plugins that can be shared:
 
 ```
 my-marketplace/
+├── .claude-plugin/
+│   └── marketplace.json      # Marketplace manifest (REQUIRED for marketplaces)
 ├── plugin-one/
 │   └── .claude-plugin/
 │       └── plugin.json
-├── plugin-two/
-│   └── .claude-plugin/
-│       └── plugin.json
-└── marketplace.json (optional)
+└── plugin-two/
+    └── .claude-plugin/
+        └── plugin.json
+```
+
+### Marketplace Manifest (marketplace.json)
+
+Location: `.claude-plugin/marketplace.json` in marketplace root
+
+#### Required Fields
+
+```json
+{
+  "name": "my-marketplace",
+  "owner": {
+    "name": "Your Name"
+  },
+  "plugins": [
+    {
+      "name": "plugin-name",
+      "source": "./plugin-directory",
+      "description": "Brief description"
+    }
+  ]
+}
+```
+
+- `name`: Marketplace identifier in kebab-case
+- `owner`: Maintainer information (name required, email optional)
+- `plugins`: Array of plugin entries
+
+#### Plugin Entry Fields
+
+Each plugin in the `plugins` array should include:
+
+- `name`: Plugin identifier (must match plugin.json name)
+- `source`: Relative path to plugin directory (e.g., `"./my-plugin"`)
+- `description`: Brief description (optional but recommended)
+
+#### Optional Marketplace Fields
+
+```json
+{
+  "name": "my-marketplace",
+  "description": "Marketplace description",
+  "version": "1.0.0",
+  "owner": {
+    "name": "Your Name",
+    "email": "you@example.com"
+  },
+  "homepage": "https://github.com/username/marketplace",
+  "plugins": [...]
+}
+```
+
+### Plugin Sources
+
+Plugin sources in marketplace.json can be:
+
+```json
+{
+  "plugins": [
+    {
+      "name": "local-plugin",
+      "source": "./local-plugin"
+    },
+    {
+      "name": "github-plugin",
+      "source": "github:username/repo"
+    },
+    {
+      "name": "git-plugin",
+      "source": "https://github.com/username/repo.git"
+    }
+  ]
+}
 ```
 
 ### Sharing Plugins
 
 1. Version control with git
 2. Share repository URL
-3. Users can clone and install
-4. Consider publishing to community marketplaces
+3. Users add marketplace: `/plugin marketplace add <url-or-path>`
+4. Users install plugins: `/plugin install plugin-name@marketplace-name`
+5. Consider publishing to community marketplaces
 
 ## Common Patterns
 
@@ -272,11 +496,30 @@ enterprise-plugin/
 
 ## Key Takeaways
 
+### Plugins
 1. Plugins extend Claude Code with shareable functionality
-2. Plugin manifest (plugin.json) is the only required file
+2. Plugin manifest (`.claude-plugin/plugin.json`) is the only required file
 3. Components are optional - add only what you need
-4. Use relative paths for all component references
+4. Use relative paths starting with `./` for all component references
 5. Semantic versioning is essential for compatibility
-6. Test thoroughly before sharing
-7. Documentation improves plugin adoption
-8. Debug mode is your friend for troubleshooting
+
+### Marketplaces
+1. Marketplace manifest must be at `.claude-plugin/marketplace.json` (not root)
+2. Each plugin entry needs `name`, `source`, and optionally `description`
+3. Plugin sources can be local paths, GitHub repos, or Git URLs
+4. Add marketplace once: `/plugin marketplace add <path>`
+5. Install plugins: `/plugin install plugin-name@marketplace-name`
+
+### Development
+1. Test plugins locally before sharing
+2. Use `/plugin uninstall` and `/plugin install` to reload during development
+3. Use `claude --debug` to troubleshoot loading issues
+4. Verify with `/help` that commands are registered
+5. Skills are automatically available when plugin is installed
+
+### Best Practices
+1. Document each plugin thoroughly
+2. Follow semantic versioning strictly
+3. Test in clean environment before publishing
+4. Keep component paths relative and consistent
+5. Use descriptive names and descriptions for discoverability
