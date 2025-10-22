@@ -399,33 +399,7 @@ Before distributing your marketplace:
 
 ## Best Practices
 
-### Organization
-
-- **Group related plugins:** Keep plugins with related functionality together
-- **Clear naming:** Use descriptive, kebab-case names
-- **Documentation:** Include README.md explaining marketplace purpose
-- **Consistent structure:** Maintain similar directory structure across plugins
-
-### Versioning
-
-- **Marketplace versioning:** Track marketplace version in marketplace.json
-- **Plugin versioning:** Each plugin maintains its own semantic version
-- **Git tags:** Use git tags to mark marketplace releases
-- **Changelog:** Document changes in CHANGELOG.md
-
-### Distribution
-
-- **Public vs Private:** Use public repos for open-source, private for internal tools
-- **Access control:** Use repository permissions to control who can access
-- **Documentation:** Provide installation instructions in README
-- **Examples:** Include example plugins or usage documentation
-
-### Collaboration
-
-- **Team marketplaces:** Create shared marketplaces for team workflows
-- **Pull requests:** Use PR workflow for plugin additions/updates
-- **Code review:** Review plugin changes before merging
-- **Testing:** Test plugin installations before publishing updates
+For comprehensive best practices on organization, versioning, distribution, and collaboration, see `reference/best-practices.md`.
 
 ## Key Takeaways
 
@@ -452,35 +426,7 @@ Before distributing your marketplace:
 
 ## Common Patterns
 
-### Personal Marketplace
-```
-my-tools/
-├── .claude-plugin/
-│   └── marketplace.json
-├── productivity/
-├── development/
-└── utilities/
-```
-
-### Team Marketplace
-```
-team-marketplace/
-├── .claude-plugin/
-│   └── marketplace.json
-├── code-standards/
-├── deployment-tools/
-└── review-helpers/
-```
-
-### Community Marketplace
-```
-community-plugins/
-├── .claude-plugin/
-│   └── marketplace.json
-├── data-science/
-├── web-dev/
-└── devops/
-```
+For detailed examples of personal, team, community, and hybrid marketplace patterns, see `reference/best-practices.md`.
 
 ## When to Use This Skill
 
