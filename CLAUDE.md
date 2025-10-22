@@ -249,35 +249,6 @@ This shows:
 
 ## Local Development Workflow
 
-### Setting Up Your Marketplace
-
-1. **Create marketplace directory**:
-   ```bash
-   mkdir my-marketplace
-   cd my-marketplace
-   ```
-
-2. **Create marketplace manifest**:
-   ```bash
-   mkdir .claude-plugin
-   ```
-
-   Create `.claude-plugin/marketplace.json`:
-   ```json
-   {
-     "name": "my-marketplace",
-     "owner": {
-       "name": "Your Name"
-     },
-     "plugins": []
-   }
-   ```
-
-3. **Initialize git** (recommended):
-   ```bash
-   git init
-   ```
-
 ### Creating and Testing a Plugin
 
 1. **Create plugin directory**:
@@ -355,16 +326,18 @@ Before sharing your plugin:
 - [ ] Documentation is clear and complete
 - [ ] Version number follows semantic versioning
 
-## Distribution
+## Distribution and Marketplaces
 
-### Marketplace Structure
+For detailed information on creating and managing plugin marketplaces, see the **marketplace-builder** skill in the claude-builder plugin (`claude-builder/skills/marketplace-builder/SKILL.md`).
 
-A marketplace is a collection of plugins that can be shared:
+### Quick Reference: Marketplace Setup
+
+A marketplace is a collection of plugins that can be shared. Basic structure:
 
 ```
 my-marketplace/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace manifest (REQUIRED for marketplaces)
+│   └── marketplace.json      # REQUIRED: Marketplace manifest
 ├── plugin-one/
 │   └── .claude-plugin/
 │       └── plugin.json
@@ -373,12 +346,7 @@ my-marketplace/
         └── plugin.json
 ```
 
-### Marketplace Manifest (marketplace.json)
-
-Location: `.claude-plugin/marketplace.json` in marketplace root
-
-#### Required Fields
-
+**Essential marketplace.json:**
 ```json
 {
   "name": "my-marketplace",
@@ -395,64 +363,16 @@ Location: `.claude-plugin/marketplace.json` in marketplace root
 }
 ```
 
-- `name`: Marketplace identifier in kebab-case
-- `owner`: Maintainer information (name required, email optional)
-- `plugins`: Array of plugin entries
+**Plugin sources** can be local paths (`./plugin`), GitHub (`github:user/repo`), or Git URLs.
 
-#### Plugin Entry Fields
+**Sharing workflow:**
+1. Create marketplace with `.claude-plugin/marketplace.json`
+2. Add plugins to the marketplace directory
+3. Push to git repository
+4. Users add: `/plugin marketplace add <url-or-path>`
+5. Users install: `/plugin install plugin-name@marketplace-name`
 
-Each plugin in the `plugins` array should include:
-
-- `name`: Plugin identifier (must match plugin.json name)
-- `source`: Relative path to plugin directory (e.g., `"./my-plugin"`)
-- `description`: Brief description (optional but recommended)
-
-#### Optional Marketplace Fields
-
-```json
-{
-  "name": "my-marketplace",
-  "description": "Marketplace description",
-  "version": "1.0.0",
-  "owner": {
-    "name": "Your Name",
-    "email": "you@example.com"
-  },
-  "homepage": "https://github.com/username/marketplace",
-  "plugins": [...]
-}
-```
-
-### Plugin Sources
-
-Plugin sources in marketplace.json can be:
-
-```json
-{
-  "plugins": [
-    {
-      "name": "local-plugin",
-      "source": "./local-plugin"
-    },
-    {
-      "name": "github-plugin",
-      "source": "github:username/repo"
-    },
-    {
-      "name": "git-plugin",
-      "source": "https://github.com/username/repo.git"
-    }
-  ]
-}
-```
-
-### Sharing Plugins
-
-1. Version control with git
-2. Share repository URL
-3. Users add marketplace: `/plugin marketplace add <url-or-path>`
-4. Users install plugins: `/plugin install plugin-name@marketplace-name`
-5. Consider publishing to community marketplaces
+For comprehensive guidance, invoke the `marketplace-builder` skill.
 
 ## Common Patterns
 
@@ -509,6 +429,7 @@ enterprise-plugin/
 3. Plugin sources can be local paths, GitHub repos, or Git URLs
 4. Add marketplace once: `/plugin marketplace add <path>`
 5. Install plugins: `/plugin install plugin-name@marketplace-name`
+6. For detailed marketplace creation, use the `marketplace-builder` skill
 
 ### Development
 1. Test plugins locally before sharing
