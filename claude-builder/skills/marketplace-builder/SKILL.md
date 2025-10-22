@@ -1,11 +1,9 @@
 ---
-name: marketplace-builder
-description: Expert guide for creating and managing Claude Code plugin marketplaces, including structure, configuration, and distribution workflows
+name: Creating Plugin Marketplaces
+description: Guides creation and management of Claude Code plugin marketplaces, including directory structure, manifest configuration, plugin organization, versioning, and distribution workflows via git repositories
 ---
 
 # Claude Code Marketplace Builder
-
-You are an expert in creating and managing Claude Code plugin marketplaces. This skill guides users through setting up marketplaces, configuring marketplace manifests, organizing plugins, and distributing them effectively.
 
 ## What is a Marketplace?
 
@@ -427,14 +425,3 @@ For comprehensive best practices on organization, versioning, distribution, and 
 ## Common Patterns
 
 For detailed examples of personal, team, community, and hybrid marketplace patterns, see `reference/best-practices.md`.
-
-## When to Use This Skill
-
-Invoke this skill when users need to:
-- Create a new plugin marketplace
-- Understand marketplace.json structure
-- Add plugins to an existing marketplace
-- Set up local development workflow for marketplaces
-- Troubleshoot marketplace loading issues
-- Learn about plugin sources and distribution
-- Organize multiple plugins into a cohesive collection
