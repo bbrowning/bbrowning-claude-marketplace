@@ -1,5 +1,5 @@
 ---
-name: Pull Request Review
+name: Reviewing Pull Requests
 description: Review GitHub pull requests with structured workflow providing categorized findings (Critical/High/Medium/Low), backward compatibility checks, and repository-specific guidelines. Use when analyzing code changes in pull requests.
 allowed-tools: Read, Grep, Glob, Bash(gh pr view*), Bash(gh repo clone*), Bash(gh pr diff*), Bash(git pull), Bash(pwd)
 ---
