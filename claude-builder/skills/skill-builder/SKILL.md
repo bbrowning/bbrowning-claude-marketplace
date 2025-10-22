@@ -115,6 +115,12 @@ my-skill/
     └── output.json
 ```
 
+**IMPORTANT**: Skills must be self-contained within their directory:
+- Only reference files within the skill directory
+- Do NOT reference external files (e.g., `../../CLAUDE.md` or project files)
+- Include all necessary content within the skill structure
+- Skills may be used in different contexts and must work independently
+
 See `reference/skill-structure.md` for detailed organization patterns.
 
 ## Best Practices

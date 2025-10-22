@@ -194,12 +194,32 @@ Use reference files when:
 - Multiple detailed examples are needed
 - Content is optional/advanced
 
+### Self-Contained Skills
+
+**IMPORTANT**: Skills must be completely self-contained within their own directory.
+
+**DO:**
+- Reference files within the skill directory: `reference/api-docs.md`
+- Include all necessary content within the skill structure
+- Duplicate information if needed across multiple skills
+
+**DON'T:**
+- Reference files outside the skill directory (e.g., `../../CLAUDE.md`)
+- Reference project files (e.g., `../other-skill/reference.md`)
+- Depend on external documentation not in the skill directory
+
+Why: Skills may be used in different contexts (personal, project, plugin) and must work independently without external dependencies.
+
 ### How to Reference
 
 ```markdown
-# Good: Clear purpose
+# Good: Clear purpose, internal reference
 For complete API reference, see `reference/api-docs.md`
 See `reference/examples.md` for 10+ real-world examples
+
+# Bad: External reference
+See the project CLAUDE.md for more details
+Refer to ../../docs/guide.md
 
 # Too vague
 More info in reference folder
@@ -212,7 +232,7 @@ Keep in SKILL.md:
 - Essential constraints
 - 1-2 key examples
 - Validation steps
-- References to detailed docs
+- References to detailed docs (within skill directory)
 
 Move to reference files:
 - Extended background ("why" and history)
