@@ -1,6 +1,6 @@
 ---
 description: Review a pull request
-allowed-tools: Read, Grep, Glob, Bash(gh pr view:*), Bash(gh repo clone:*), Bash(gh pr diff:*)
+allowed-tools: Read, Grep, Glob, Bash(gh pr view*), Bash(gh repo clone*), Bash(gh pr diff*), Bash(git pull), Bash(pwd)
 ---
 
 # Pull Request Review
@@ -9,4 +9,4 @@ Review a pull request specified by the user input of "$ARGUMENTS". Verify the us
 
 Confirm the pull request to be reviewed with the user before proceeding.
 
-Use the **Pull Request Review** skill to conduct the review. For repository-specific guidelines, check if there are progressive content skills available for the specific repository being reviewed
+Use the **Pull Request Review** skill to conduct the review.

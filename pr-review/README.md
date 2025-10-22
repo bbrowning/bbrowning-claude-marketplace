@@ -52,17 +52,18 @@ The command will:
 All PR reviews follow this standard workflow:
 
 1. **Setup**
-   - Define clone directory variable for consistent path handling
    - Verify CI status checks are green
-   - Clone repository to dedicated directory
+   - Clone repository to dedicated directory: `pr-<org>-<repo>-<number>`
+   - Change into the cloned directory: `cd pr-<org>-<repo>-<number>`
 
 2. **Fetching Changes**
-   - Update base branch using `git -C` (no directory changes)
-   - Fetch PR diff for analysis
+   - Update base branch: `git pull`
+   - Fetch PR diff for analysis: `gh pr diff <number> > pr_changes.diff`
    - Security: Never run untrusted code from PRs
 
 3. **Code Review**
-   - Analyze PR diff using Read tool with absolute paths
+   - Read PR diff from `./pr_changes.diff`
+   - Read files using relative paths like `./src/example.py`
    - Check comment accuracy
    - Flag backwards compatibility issues
    - Verify changes align with PR description
@@ -72,7 +73,7 @@ All PR reviews follow this standard workflow:
 4. **Output**
    - Categorized findings (Critical, High, Medium, Low)
    - Clear distinction between required and optional changes
-   - Summary written to `pr_review_results.md` in clone directory
+   - Summary written to `./pr_review_results.md` in the cloned repository directory
 
 ## Requirements
 
