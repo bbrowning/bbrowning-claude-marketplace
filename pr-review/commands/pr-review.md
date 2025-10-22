@@ -14,20 +14,25 @@ Delegate to the appropriate skill to handle reviews for different GitHub reposit
 
 Follow this standard process for reviewing pull requests:
 
+**Setup Variables**
+- Define the clone directory path: `CLONE_DIR="$PWD/pr-<github_org>-<github_repo>-<pull_request_number>"`
+- Use this variable for ALL subsequent file operations and git commands
+- NEVER use `cd` to change directories - always use absolute paths with the CLONE_DIR variable
+
 **Prerequisites**
 - Use the `gh` CLI tool for all github interactions.
 - Ensure CI status checks are all green. If any are not green, prompt the user whether they want to continue the review or stop until CI is green - `gh pr view --repo <github_org>/<github_repo>` along with any flags you need to interpret PR status, comments, etc
-- Clone the remote repository locally to a directory named "pr-<github_org>-<github_repo>-<pull_request_number>" with a command such as "gh repo clone <github_org>/<github_repo> pr-<github_org>-<github_repo>-<pull_request_number>". Do not do this if the directory already exists.
-- Change directory into that newly cloned repo. Use that directory for ALL subsequent commands.
+- Clone the remote repository: `gh repo clone <github_org>/<github_repo> "$CLONE_DIR"`. Skip if the directory already exists.
 
 **Fetching Changes**
-- Remember we are already inside a clone of the PR's base branch
-- `git pull` to ensure we have the latest code of the base branch
-- `gh pr diff <pull_request_number> > pr_changes.diff` to fetch the PR's changes.
+- Update the base branch: `git -C "$CLONE_DIR" pull`
+- Fetch the PR diff: `gh pr diff <pull_request_number> --repo <github_org>/<github_repo> > "$CLONE_DIR/pr_changes.diff"`
 - DO NOT run any code as part of the pull request review. The pull request may contain untrusted code submitted by users and we should not run that locally.
 
 **Reviewing Code**
-- Remember we have all the changes from the PR stored locally in `pr_changes.diff`!
+- All PR changes are in `$CLONE_DIR/pr_changes.diff`
+- Read files from the cloned repo using absolute paths: `$CLONE_DIR/path/to/file`
+- Use the Read tool with paths like `$CLONE_DIR/src/example.py` to examine files
 - For large changes, split up the diff into multiple smaller tasks to review different parts of the changed code.
 - Ensure any code comments in / around the changes made in the PR match the code changed in the PR.
 - Flag any places that may cause issues with backwards compatibility of public-facing APIs.
@@ -37,4 +42,4 @@ Follow this standard process for reviewing pull requests:
 **Final Output**
 - Output a summary of your findings, with the severity of each finding categorized by Critical, High, Medium, or Low.
 - Call out what must be changed before merging and what is optional, such as coding preferences or small nits that don't impact functionality.
-- Write this summary to a file call `pr_review_results.md`.
+- Write this summary to `$CLONE_DIR/pr_review_results.md`

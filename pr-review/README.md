@@ -53,26 +53,32 @@ The plugin currently supports specialized review workflows for:
 
 - **llamastack/llama-stack**: Comprehensive review including CI checks, code structure, backwards compatibility, and alignment with PR description
 
-### Review Process (Llama Stack)
+### Generic Review Process
 
-The Llama Stack review workflow includes:
+All PR reviews follow this standard workflow:
 
-1. **Prerequisites**
+1. **Setup**
+   - Define clone directory variable for consistent path handling
    - Verify CI status checks are green
-   - Clone repository to isolated directory
-   - Fetch latest changes
+   - Clone repository to dedicated directory
 
-2. **Code Review**
-   - Analyze PR diff for code quality
+2. **Fetching Changes**
+   - Update base branch using `git -C` (no directory changes)
+   - Fetch PR diff for analysis
+   - Security: Never run untrusted code from PRs
+
+3. **Code Review**
+   - Analyze PR diff using Read tool with absolute paths
    - Check comment accuracy
    - Flag backwards compatibility issues
    - Verify changes align with PR description
    - Assess code structure and maintainability
+   - Split large changes into smaller review tasks
 
-3. **Output**
+4. **Output**
    - Categorized findings (Critical, High, Medium, Low)
    - Clear distinction between required and optional changes
-   - Summary written to `pr_review_results.md`
+   - Summary written to `pr_review_results.md` in clone directory
 
 ## Requirements
 

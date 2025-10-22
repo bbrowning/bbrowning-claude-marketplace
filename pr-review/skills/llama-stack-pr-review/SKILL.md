@@ -1,7 +1,7 @@
 ---
 name: Reviewing Llama Stack Pull Requests
 description: Review Llama Stack pull requests. Use when reviewing GitHub pull requests for the llamastack/llama-stack repository.
-allowed-tools: Bash(gh pr view:*), Bash(gh repo clone:*), Bash(gh pr checkout:*)
+allowed-tools: Bash(gh pr view:*), Bash(gh repo clone:*), Bash(gh pr diff:*), Bash(git -C:*)
 ---
 
 ## Llama Stack-Specific Review Guidelines
