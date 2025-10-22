@@ -1,6 +1,6 @@
 ---
-name: Writing Claude Skills
-description: Guides Claude in creating expert-level skills for Claude Code using best practices, progressive context reveal, and effective documentation patterns
+name: Creating and Editing Claude Skills
+description: Use when creating, editing, updating, reviewing, or improving Claude Code skills (SKILL.md files). Provides expert guidance on skill structure, descriptions, progressive context reveal, and best practices for effective skill development.
 ---
 
 # Writing Claude Skills

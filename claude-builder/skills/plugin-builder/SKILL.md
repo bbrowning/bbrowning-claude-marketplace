@@ -1,6 +1,6 @@
 ---
-name: Building Claude Plugins
-description: Guides creation of Claude Code plugins including structure, manifest configuration, component organization, and best practices for shareable functionality
+name: Creating and Editing Claude Plugins
+description: Use when creating, editing, updating, reviewing, or improving Claude Code plugins (plugin.json, .claude-plugin directories). Provides expert guidance on plugin structure, manifest configuration, component organization, versioning, and best practices for shareable functionality.
 ---
 
 # Building Claude Code Plugins
