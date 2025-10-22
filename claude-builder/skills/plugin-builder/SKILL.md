@@ -207,6 +207,69 @@ For comprehensive best practices, see `reference/best-practices.md`. Key highlig
 - Verify paths are correct relative to plugin root
 - Test that components are found after installation
 
+## Reviewing Plugins
+
+When reviewing plugins (your own or others') before sharing or adding to marketplaces, use this systematic approach to ensure quality and adherence to best practices.
+
+### Review Process
+
+Follow these five steps for thorough plugin review:
+
+**Step 1: Initial Inspection**
+1. Check plugin.json exists at `.claude-plugin/plugin.json`
+2. Validate JSON syntax
+3. Verify required fields (name, version)
+4. Review overall directory structure
+
+**Step 2: Component Verification**
+1. Test each component path references valid location
+2. Check component files exist and are properly formatted
+3. Verify component-specific requirements (SKILL.md, frontmatter, etc.)
+
+**Step 3: Local Testing**
+1. Install plugin locally: `/plugin install /path/to/plugin`
+2. Verify installation: `/plugin` shows plugin
+3. Check for errors: `claude --debug`
+4. Test each component works as documented
+5. Uninstall and reinstall to verify clean installation
+
+**Step 4: Quality Assessment**
+1. Evaluate documentation completeness
+2. Check if plugin has single, clear purpose
+3. Assess naming quality and discoverability
+4. Review for best practices adherence
+
+**Step 5: Final Validation**
+1. Confirm no security issues
+2. Verify version is appropriate
+3. Check all documentation is accurate
+4. Ensure plugin is ready for intended audience
+
+### Review Checklist
+
+For a comprehensive checklist covering all aspects of plugin review, see `reference/review-checklist.md`. Key areas to review:
+
+1. **Manifest Validation**: plugin.json structure, required fields, JSON syntax
+2. **Path Validation**: Relative paths, correct references, no external dependencies
+3. **Structure and Organization**: Clear patterns, cohesive purpose
+4. **Component Quality**: Skills, commands, agents, hooks, MCP servers
+5. **Documentation**: README, installation, usage examples
+6. **Naming Conventions**: Descriptive, non-generic names
+7. **Versioning**: Semantic versioning, appropriate version number
+8. **Security and Safety**: No credentials, safe operations, no malicious code
+
+The detailed checklist in `reference/review-checklist.md` provides specific items to verify for each category, common issues to flag (critical, important, minor), and decision criteria for determining if a plugin is ready to share.
+
+### Quick Review Tips
+
+1. **Test in clean environment**: Install plugin fresh to catch missing dependencies
+2. **Read documentation first**: Verify docs match actual functionality
+3. **Check debug output**: `claude --debug` reveals loading issues
+4. **Try all components**: Don't assume untested components work
+5. **Think like a user**: Is it easy to understand and use?
+6. **Verify paths manually**: Walk through directory structure to confirm paths
+7. **Check version history**: If updating, ensure version change is appropriate
+
 ## Testing and Debugging
 
 ### Local Testing
