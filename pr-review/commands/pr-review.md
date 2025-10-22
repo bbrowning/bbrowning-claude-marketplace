@@ -1,6 +1,6 @@
 ---
 description: Review a pull request
-allowed-tools: Read, Grep, Glob, Bash(gh pr view*), Bash(gh repo clone*), Bash(gh pr diff*), Bash(git pull), Bash(pwd)
+allowed-tools: Read, Grep, Glob, Bash(gh pr view:*), Bash(gh pr diff:*)
 ---
 
 # Pull Request Review
