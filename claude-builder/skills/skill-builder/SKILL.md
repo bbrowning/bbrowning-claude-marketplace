@@ -167,6 +167,49 @@ See `reference/examples.md` for complete skill examples including:
 4. Add supporting docs as needed
 5. Keep SKILL.md concise, move details to reference files
 
+## Critical Workflow: Review After Every Change
+
+**IMPORTANT**: Whenever you make changes to a skill file (creating, editing, or updating SKILL.md or related files), you MUST immediately review the skill against best practices.
+
+### Required Review Steps
+
+After making any skill changes:
+
+1. **Read the updated skill**: Use the Read tool to view the complete updated SKILL.md
+2. **Apply review checklist**: Review against criteria in `reference/skill-review.md`:
+   - Name: Gerund form, specific, not vague
+   - Description: Under 1024 chars, includes key terms, third person
+   - Length: SKILL.md under 500 lines
+   - Examples: Concrete and helpful
+   - Validation: Steps included for verifying success
+   - Clarity: Instructions are unambiguous and actionable
+   - Organization: Logical structure with progressive disclosure
+3. **Identify issues**: Note any deviations from best practices
+4. **Fix immediately**: If issues are found, fix them before completing the task
+
+### What to Check
+
+- **Discoverability**: Will Claude find and use this skill appropriately?
+- **Clarity**: Are instructions clear enough to follow?
+- **Completeness**: Is all necessary information included?
+- **Conciseness**: Only what Claude doesn't already know?
+- **Effectiveness**: Does the skill actually help accomplish the task?
+
+### Common Issues to Catch
+
+- Vague descriptions that hurt discoverability
+- Missing validation steps
+- Ambiguous instructions
+- Monolithic SKILL.md files (over 500 lines)
+- Over-explanation of what Claude already knows
+- Missing concrete examples
+- Time-sensitive information
+- External file references (skills must be self-contained)
+
+For comprehensive review guidelines, see `reference/skill-review.md`.
+
+**This review step is not optional** - it ensures every skill change maintains quality and follows best practices.
+
 ## Reviewing Skills
 
 Whether reviewing your own skills or others', systematic review ensures quality and effectiveness.
