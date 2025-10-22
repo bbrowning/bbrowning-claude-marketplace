@@ -4,10 +4,16 @@ This is a personal Claude Code plugin marketplace for version control and sharin
 
 ## About This Marketplace
 
-This marketplace contains the **claude-builder** plugin with three specialized skills:
+This marketplace contains the following plugins:
+
+### claude-builder
+Expert guidance for creating Claude Code skills, plugins, and marketplaces with three specialized skills:
 - **plugin-builder**: Comprehensive guide for creating Claude Code plugins
 - **marketplace-builder**: Guide for creating and managing plugin marketplaces
 - **skill-builder**: Guide for writing high-quality Claude Code skills
+
+### pr-review
+Plugin for reviewing pull requests with automated analysis and feedback.
 
 ## Quick Start
 
@@ -20,6 +26,9 @@ This marketplace contains the **claude-builder** plugin with three specialized s
 ```bash
 # Install the claude-builder plugin
 /plugin install claude-builder@bbrowning-claude-marketplace
+
+# Install the pr-review plugin
+/plugin install pr-review@bbrowning-claude-marketplace
 
 # Browse all available plugins interactively
 /plugin
