@@ -161,6 +161,41 @@ See `reference/examples.md` for complete skill examples including:
 4. Add supporting docs as needed
 5. Keep SKILL.md concise, move details to reference files
 
+## Reviewing Skills
+
+Whether reviewing your own skills or others', systematic review ensures quality and effectiveness.
+
+### Review Checklist
+
+Quick checklist for skill review:
+- **Name**: Gerund form, specific, not vague
+- **Description**: Under 1024 chars, includes key terms, third person
+- **Length**: SKILL.md under 500 lines
+- **Examples**: Concrete and helpful
+- **Validation**: Steps included for verifying success
+- **Clarity**: Instructions are unambiguous and actionable
+- **Organization**: Logical structure with progressive disclosure
+
+### Key Review Areas
+
+1. **Discoverability**: Will Claude find and use this skill appropriately?
+2. **Clarity**: Are instructions clear enough to follow?
+3. **Completeness**: Is all necessary information included?
+4. **Conciseness**: Only what Claude doesn't already know?
+5. **Effectiveness**: Does the skill actually help accomplish the task?
+
+### Common Issues to Check
+
+- Vague descriptions that hurt discoverability
+- Missing validation steps
+- Ambiguous instructions
+- Monolithic SKILL.md files (over 500 lines)
+- Over-explanation of what Claude already knows
+- Missing concrete examples
+- Time-sensitive information
+
+For comprehensive review guidelines, see `reference/skill-review.md`.
+
 ## Common Patterns
 
 ### Single-Purpose Skill
@@ -187,6 +222,7 @@ Limit tools for safety-critical or read-only operations.
 - `reference/skill-structure.md`: Complete structure and organization details
 - `reference/best-practices.md`: Comprehensive best practices guide
 - `reference/examples.md`: Real-world skill examples
+- `reference/skill-review.md`: Comprehensive skill review guidelines
 - `templates/skill-template.md`: Starting template for new skills
 
 ## Quick Decision Guide
