@@ -5,9 +5,9 @@
   },
   "plugins": [
     {
-      "name": "skill-builder",
-      "source": "./skill-builder",
-      "description": "Expert guidance for creating effective Claude Code skills with best practices and progressive context reveal"
+      "name": "claude-builder",
+      "source": "./claude-builder",
+      "description": "Expert guidance for creating Claude Code skills, plugins, and marketplaces with best practices and progressive context reveal"
     }
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "hooks": [
+    {
+      "event": "PreToolUse",
+      "command": "./scripts/pre-tool.sh"
+    },
+    {
+      "event": "PostToolUse",
+      "command": "./scripts/post-tool.sh"
+    },
+    {
+      "event": "UserPromptSubmit",
+      "command": "./scripts/on-submit.sh"
+    }
+  ]
+}

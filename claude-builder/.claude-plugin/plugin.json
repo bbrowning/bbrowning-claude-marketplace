@@ -1,0 +1,10 @@
+{
+  "name": "claude-builder",
+  "version": "1.0.0",
+  "description": "Expert guidance for creating Claude Code skills, plugins, and marketplaces with best practices and progressive context reveal",
+  "author": {
+    "name": "bbrowning"
+  },
+  "keywords": ["skills", "plugins", "marketplaces", "development", "best-practices", "documentation"],
+  "skills": ["./skills"]
+}
