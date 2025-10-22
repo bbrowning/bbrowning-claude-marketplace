@@ -1,0 +1,8 @@
+{
+  "name": "bbrowning-pr-review-plugin",
+  "description": "bbrowning's plugin for reviewing PRs",
+  "version": "0.0.1",
+  "author": {
+    "name": "Benjamin Browning"
+  }
+}
