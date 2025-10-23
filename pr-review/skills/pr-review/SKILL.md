@@ -1,32 +1,20 @@
 ---
 name: Reviewing Pull Requests
 description: Review GitHub pull requests with structured analysis of code quality, backward compatibility, security, test coverage, and unaddressed comments. Provides categorized findings (Critical/High/Medium/Low) with actionable recommendations. Use when analyzing code changes in pull requests.
-allowed-tools: Read, Grep, Glob, Bash
+allowed-tools: Read, Grep, Glob, Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh pr checks:*)
 ---
 
 # Pull Request Review Workflow
 
 This skill guides comprehensive PR reviews using the GitHub CLI and local code analysis.
 
-## 1. Setup and Prerequisites
+## 1. Cloning the repository and checking out the PR
 
-**Clone repository locally:**
 ```bash
 gh repo clone <github_org>/<github_repo> pr-<github_org>-<github_repo>-<pr_number>
 cd pr-<github_org>-<github_repo>-<pr_number>
-```
-
-**Fetch and checkout the PR:**
-```bash
 gh pr checkout <pr_number>
 ```
-
-**Check CI status:**
-```bash
-gh pr view <pr_number> --json statusCheckRollup
-```
-
-If CI checks are failing, ask the user whether to continue or wait for green CI.
 
 **CRITICAL SAFETY**: Never run code from the PR. It may contain untrusted code. Only read and analyze files.
 
@@ -57,10 +45,12 @@ Flag these prominently in your review.
 
 **Get the diff:**
 ```bash
-gh pr diff <pr_number>
+gh pr diff <pr_number> > pr_changes.diff
 ```
 
 For large PRs (>500 lines changed), break the review into logical sections (e.g., by file, by functionality).
+
+Reference the local pr_changes.diff as you need to find changes in the PR over repeated calls to `gh pr diff`. And remember that you are already in a directory that has the PR cloned and checked out, so you can also look at local files.
 
 **Review each changed file systematically:**
 
