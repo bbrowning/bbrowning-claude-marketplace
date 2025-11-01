@@ -292,6 +292,17 @@ Include README.md for complex plugins:
 6. **Requirements**: Any dependencies or prerequisites
 7. **License**: Licensing information
 
+**CRITICAL: Keep README synchronized with plugin contents**
+
+When adding or removing components (especially skills), ALWAYS update the README to reflect the changes:
+
+- **Adding a skill**: Add it to the Components section with a brief description
+- **Removing a skill**: Remove it from the Components section
+- **Updating a skill**: Update its description if purpose changed
+- **Adding commands/agents**: Document them in the appropriate sections
+
+This is easy to forget but critical for discoverability. Users read the README to understand what the plugin offers.
+
 **Example README structure:**
 ```markdown
 # My Plugin
