@@ -174,6 +174,178 @@ To verify your configuration architecture:
 
 Most likely: **Global** (`~/.claude/CLAUDE.md`) because commit message style is typically a personal preference that should apply everywhere you work.
 
+## Working with Git Worktrees
+
+When frequently context-switching between multiple PRs or bugs, git worktrees provide a better workflow than stashing or multiple clones.
+
+### Why Worktrees?
+
+**Use worktrees when:**
+- You need to switch between multiple branches/PRs frequently throughout the day
+- You want separate working directories for each branch
+- You don't want to stash/commit WIP when context-switching
+
+**Benefits over alternatives:**
+- Each worktree is a separate directory with its own branch
+- Share the same `.git` repository (saves space vs multiple clones)
+- No need to stash/commit when switching contexts
+- Claude Code can work independently in each worktree
+
+### Basic Worktree Usage
+
+```bash
+# Create worktree for existing branch
+git worktree add ../myrepo-feature-x feature-x
+
+# Create worktree with new branch
+git worktree add ../myrepo-bugfix -b bugfix/issue-123
+
+# List all worktrees
+git worktree list
+
+# Remove worktree when done
+git worktree remove ../myrepo-feature-x
+```
+
+### Sharing .claude Configuration Across Worktrees
+
+**Scenario 1: Team project where `.claude/` is committed**
+
+No special setup needed! The `.claude/CLAUDE.md` file is in version control, so all worktrees automatically share the same configuration through git.
+
+**Scenario 2: Large OSS project where `.claude/` cannot be committed**
+
+Use symlinks to share your project-local configuration across worktrees:
+
+```bash
+# In your main worktree (keep the real .claude directory here)
+ls .claude/CLAUDE.md  # Verify it exists
+
+# In each additional worktree
+cd ../myrepo-feature-x
+rm -rf .claude  # Remove if it exists
+ln -s /full/path/to/main-worktree/.claude .claude
+
+# Prevent accidental commits
+echo ".claude" >> .git/info/exclude
+```
+
+### Automation Script for OSS Projects
+
+Create a script to automate worktree creation with shared `.claude/`:
+
+```bash
+#!/bin/bash
+# create-worktree.sh
+PROJECT_NAME=$(basename $(git rev-parse --show-toplevel))
+MAIN_WORKTREE=$(git rev-parse --show-toplevel)
+BRANCH=$1
+WORKTREE_DIR="../${PROJECT_NAME}-${BRANCH}"
+
+# Create the worktree
+git worktree add "$WORKTREE_DIR" -b "$BRANCH"
+
+# Symlink .claude directory
+cd "$WORKTREE_DIR"
+rm -rf .claude
+ln -s "${MAIN_WORKTREE}/.claude" .claude
+
+# Exclude from git
+echo ".claude" >> .git/info/exclude
+
+echo "Worktree created at $WORKTREE_DIR with shared .claude config"
+```
+
+Usage:
+```bash
+./create-worktree.sh feature/new-optimization
+```
+
+### Worktree Configuration Strategy
+
+With worktrees, your three-tier configuration works seamlessly:
+
+1. **Global** (`~/.claude/CLAUDE.md`)
+   - Automatically available in all worktrees
+   - No setup needed
+
+2. **Plugin Skills** (from marketplace)
+   - Available wherever marketplace is installed
+   - Works the same in all worktrees
+
+3. **Project-Local** (`.claude/CLAUDE.md`)
+   - **Committed projects**: Shared automatically via git
+   - **Uncommitted (OSS)**: Shared via symlinks
+
+### Common Worktree Mistakes
+
+**DON'T:**
+- Use multiple full clones (wastes space and creates sync issues)
+- Create separate `.claude/` directories in each worktree (causes divergence)
+- Forget to symlink `.claude/` in OSS projects
+
+**DO:**
+- Use worktrees for frequent context-switching
+- Symlink `.claude/` for OSS projects where you can't commit configuration
+- Keep one "main" worktree with the real `.claude/` directory
+- Add `.claude` to `.git/info/exclude` in OSS projects
+
+## Ensuring Critical Skills Are Always Available
+
+Plugin skills are model-invoked based on description matching. For critical workflow information you want **guaranteed** in every session, use a hybrid approach.
+
+### Hybrid Pattern: Global + Plugin
+
+**When to use:**
+- A plugin skill contains critical day-to-day workflow information
+- You want core concepts available in every session, every project
+- You need detailed guidance available on-demand
+
+**Implementation:**
+
+1. **Brief essentials in global config** (`~/.claude/CLAUDE.md`):
+   - Key reminders and principles
+   - Quick reference to core concepts
+   - Pointer to the detailed skill
+
+2. **Comprehensive details in plugin skill**:
+   - Full workflows and examples
+   - Decision frameworks
+   - Automation scripts
+   - Edge cases and anti-patterns
+
+**Example:**
+
+```markdown
+# In ~/.claude/CLAUDE.md (always loaded)
+
+# Claude Code Configuration
+- Three tiers: Global (~/.claude/CLAUDE.md), Plugin Skills, Project-Local (.claude/CLAUDE.md)
+- For detailed guidance, use the cross-repo-config skill
+
+# Git Worktrees for Context-Switching
+- Use git worktrees (not multiple clones) for frequent PR/bug switching
+- In OSS projects: symlink .claude/ from main worktree
+- For automation scripts, use the cross-repo-config skill
+```
+
+**Benefits:**
+- Global config ensures core concepts are always present ✅
+- Skill provides detailed guidance when needed ✅
+- Reduces skill file size (progressive disclosure) ✅
+- Improves discoverability (explicit skill reference) ✅
+- User can quickly reference essentials ✅
+
+**Don't:**
+- Duplicate all skill content in global config
+- Put project-specific patterns in global config
+- Rely solely on skill discoverability for critical workflows
+
+**Do:**
+- Keep global config entries brief (1-3 bullets per topic)
+- Point to the skill name explicitly for details
+- Ensure the skill is globally installed if critical
+
 ## Tips for Success
 
 1. **Start with global**: Most personal preferences belong in `~/.claude/CLAUDE.md`
@@ -181,3 +353,6 @@ Most likely: **Global** (`~/.claude/CLAUDE.md`) because commit message style is 
 3. **Project-local is rare**: Only truly project-specific architecture belongs here
 4. **Review periodically**: Check if project-local settings should be elevated to global
 5. **Keep it simple**: Don't over-engineer the tier structure
+6. **Use worktrees for context-switching**: Better than stashing or multiple clones
+7. **Symlink .claude in OSS projects**: Share configuration across worktrees when you can't commit
+8. **Hybrid for critical skills**: Brief in global, detailed in skill, both globally available
