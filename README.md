@@ -7,10 +7,12 @@ This is a personal Claude Code plugin marketplace for version control and sharin
 This marketplace contains the following plugins:
 
 ### claude-builder
-Expert guidance for creating Claude Code skills, plugins, and marketplaces with three specialized skills:
+Expert guidance for creating Claude Code skills, plugins, and marketplaces with specialized skills:
 - **plugin-builder**: Comprehensive guide for creating Claude Code plugins
 - **marketplace-builder**: Guide for creating and managing plugin marketplaces
 - **skill-builder**: Guide for writing high-quality Claude Code skills
+- **cross-repo-config**: Guide for organizing configuration across multiple repositories using three-tier architecture
+- **version-control-config**: Guide for version controlling ~/.claude directory with proper .gitignore setup
 
 ### pr-review
 Plugin for reviewing pull requests with automated analysis and feedback.
