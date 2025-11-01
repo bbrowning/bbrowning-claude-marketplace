@@ -284,7 +284,9 @@ The detailed checklist in `reference/review-checklist.md` provides specific item
 /help                    # Check for new commands
 claude --debug          # See plugin loading details
 
-# Uninstall and reinstall after changes
+# Update plugin after making changes
+/plugin                 # Select plugin to update (easiest)
+# OR manually uninstall/reinstall:
 /plugin uninstall my-plugin@local
 /plugin install /path/to/my-plugin
 ```

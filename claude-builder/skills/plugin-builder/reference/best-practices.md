@@ -69,12 +69,17 @@ mkdir my-plugin
 ### Iterative Development
 
 1. **Make changes** to plugin files
-2. **Uninstall** old version: `/plugin uninstall my-plugin@local`
-3. **Reinstall** updated version: `/plugin install /path/to/my-plugin`
+2. **Update** the plugin using one of these methods:
+   - **Easiest**: Run `/plugin` and select the plugin to update (Claude Code will reload it)
+   - **Manual**: `/plugin uninstall my-plugin@marketplace-name` then `/plugin install my-plugin@marketplace-name`
+3. **Restart Claude Code** if prompted to apply changes
 4. **Test** the changes
 5. **Repeat** until satisfied
 
-**Tip:** Restart Claude Code to reload all plugins without manual uninstall/reinstall.
+**Tips:**
+- The `/plugin` menu command is the easiest way to update during development
+- Restart Claude Code to reload all plugins without manual uninstall/reinstall
+- For marketplaces, changes are picked up when reinstalling from the marketplace
 
 ## Versioning
 
