@@ -159,6 +159,9 @@ For comprehensive criteria, see `reference/review-checklist.md`. Key areas:
    - Safe handling of user data
    - **CRITICAL**: Check for `pull_request_target` + checkout of untrusted code pattern in workflows
    - CI/CD workflows don't expose secrets or OIDC tokens to untrusted code
+   - **Authentication/Authorization**: For PRs involving JWT tokens or MCP servers, see:
+     - `reference/jwt-security.md` for JWT implementation security
+     - `reference/mcp-authorization.md` for MCP OAuth 2.1 compliance
 
 5. **Performance**
    - No obvious performance issues
@@ -360,5 +363,8 @@ This skill is designed to be customized:
 2. **Adjust severity definitions**: Modify `reference/severity-guide.md`
 3. **Customize report format**: Update `templates/review-report.md`
 4. **Add repository rules**: Add sections to this file or create repository-specific reference files
+5. **Security guidelines**: Specialized security references available:
+   - `reference/jwt-security.md` - JWT token handling and common vulnerabilities
+   - `reference/mcp-authorization.md` - MCP server OAuth 2.1 implementation
 
 The goal is a thorough, actionable review that helps maintain code quality while being respectful and constructive.
