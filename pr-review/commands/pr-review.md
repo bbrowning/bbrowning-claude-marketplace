@@ -73,7 +73,7 @@ To continue the review in an isolated environment:
 
 1. Open a new terminal
 2. Navigate to the worktree: cd <worktree_path>
-3. Launch Claude Code: claude-code
+3. Launch Claude Code: claude
 4. In the new Claude Code session, provide this prompt:
 
    "Review PR #<pr_number> for <github_org>/<github_repo>. I'm already in a git worktree with the PR checked out. Use the pr-review skill and skip directly to step 3 (Gather PR Context) since the worktree is already set up."
