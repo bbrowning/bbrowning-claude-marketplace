@@ -39,6 +39,27 @@ cd ../vllm-pr-12345
 gh pr checkout 12345
 ```
 
+**Share .claude configuration across worktrees:**
+
+After creating the worktree, run the configuration sharing script to set up `.claude/` access:
+
+```bash
+cd ../<repo_name>-pr-<pr_number>
+${CLAUDE_PLUGIN_ROOT}/pr-review/scripts/setup-worktree-claude-config.sh
+```
+
+This script:
+- Checks if `.claude/` directory exists in the main repository
+- If `.claude/` is committed to git: Reports that sharing happens automatically
+- If `.claude/` exists but is not committed (OSS projects):
+  - Creates a symlink from the worktree to the main worktree's `.claude/` directory
+  - Adds `.claude` to `.git/info/exclude` to prevent accidental commits
+
+**Why symlink .claude?**
+- Ensures project-local configuration (review criteria, skills, commands) is available in the PR worktree
+- Maintains consistency across all worktrees for the same repository
+- Prevents configuration divergence between worktrees
+
 **CRITICAL SAFETY**: Never run code from the PR. It may contain untrusted code. Only read and analyze files.
 
 ## 2. Launch Claude Code in the Worktree
