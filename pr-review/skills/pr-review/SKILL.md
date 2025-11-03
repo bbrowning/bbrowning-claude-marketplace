@@ -23,9 +23,9 @@ cd ../<repo_name>-pr-<pr_number>
 gh pr checkout <pr_number>
 ```
 
-**Example for vLLM project PR #12345:**
+**Example for vLLM project PR #12345 where vllm is at /Users/alice/repos/vllm:**
 ```bash
-cd /path/to/vllm
+cd /Users/alice/repos/vllm
 git worktree add ../vllm-pr-12345 -b vllm-pr-12345
 cd ../vllm-pr-12345
 gh pr checkout 12345
