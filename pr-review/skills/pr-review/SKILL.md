@@ -73,6 +73,8 @@ This ensures we're reviewing the correct code in isolation.
 
 **The remaining steps below are performed in the new Claude Code session within the worktree.**
 
+**IMPORTANT**: Remember to clean up the worktree after completing the review (see section 9 below).
+
 ## 3. Gather PR Context
 
 **Fetch PR details:**
@@ -225,6 +227,62 @@ Ask if the user wants:
 - To focus on particular aspects
 - To leave review comments on GitHub
 
+## 9. Clean Up the Worktree
+
+**After completing the PR review**, return to the original terminal session where you created the worktree and clean up:
+
+### Automated Cleanup (Recommended)
+
+Use the cleanup script for safe, consistent cleanup:
+
+```bash
+# Return to the main repository (if not already there)
+cd /path/to/<repo>
+
+# Run the cleanup script with the PR number
+${CLAUDE_PLUGIN_ROOT}/pr-review/scripts/cleanup-pr-worktree.sh <pr_number>
+```
+
+**Example for PR #12345:**
+```bash
+cd ~/src/vllm
+${CLAUDE_PLUGIN_ROOT}/pr-review/scripts/cleanup-pr-worktree.sh 12345
+```
+
+The script will:
+- Verify you're in the main repository worktree
+- Remove the worktree directory (including any modified/untracked files)
+- Delete the local branch
+- Provide clear success/error messages
+
+### Manual Cleanup
+
+If you prefer manual cleanup or the script isn't available:
+
+```bash
+# Navigate to the main repository
+cd /path/to/<repo>
+
+# List worktrees to verify the one to remove
+git worktree list
+
+# Remove the worktree (--force handles modified/untracked files)
+git worktree remove --force <repo_name>-pr-<pr_number>
+
+# Delete the local branch
+git branch -D <repo_name>-pr-<pr_number>
+```
+
+**Why cleanup matters:**
+- Prevents orphaned worktrees consuming disk space
+- Avoids confusion about which worktree to use
+- Keeps the repository clean and organized
+
+**Safety note:** The worktree removal is safe because:
+- PR review results should have been saved to the main worktree or submitted to GitHub
+- The worktree was for review only (no development work)
+- The PR branch still exists on GitHub
+
 ## Repository-Specific Customization
 
 This skill supports repository-specific review criteria. When reviewing PRs, check if custom guidelines exist for the repository.
@@ -274,6 +332,7 @@ Before completing the review, ensure:
 - [ ] Actionable recommendations provided
 - [ ] Positive aspects noted
 - [ ] Final recommendation clear
+- [ ] User reminded to clean up worktree after review (section 9)
 
 ## Extending This Skill
 
