@@ -1,6 +1,6 @@
 Review the conversation history and:
 
-1. Identify key learnings from this session:
+1. Identify key learnings from this session$ARGUMENTS:
    - Technical patterns discovered
    - User corrections or guidance provided
    - Task-specific approaches that worked
