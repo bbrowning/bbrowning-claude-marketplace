@@ -1,24 +1,58 @@
 ---
 name: Reviewing Pull Requests
 description: Review GitHub pull requests with structured analysis of code quality, backward compatibility, security, test coverage, and unaddressed comments. Provides categorized findings (Critical/High/Medium/Low) with actionable recommendations. Use when analyzing code changes in pull requests.
-allowed-tools: Read, Grep, Glob, Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh pr checks:*)
+allowed-tools: Read, Grep, Glob, Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh pr checks:*), Bash(gh pr checkout:*), Bash(git worktree:*), Bash(cd:*), Bash(pwd:*)
 ---
 
 # Pull Request Review Workflow
 
 This skill guides comprehensive PR reviews using the GitHub CLI and local code analysis.
 
-## 1. Cloning the repository and checking out the PR
+## 1. Creating a Git Worktree for the PR
+
+**Create a new worktree with the PR checked out:**
 
 ```bash
-gh repo clone <github_org>/<github_repo> pr-<github_org>-<github_repo>-<pr_number>
-cd pr-<github_org>-<github_repo>-<pr_number>
+# Navigate to the repository (if not already there)
+cd /path/to/<repo>
+
+# Create worktree and check out the PR
+# Use format: <repo_name>-pr-<pr_number> for the branch and directory
+git worktree add ../<repo_name>-pr-<pr_number> -b <repo_name>-pr-<pr_number>
+cd ../<repo_name>-pr-<pr_number>
 gh pr checkout <pr_number>
+```
+
+**Example for vLLM project PR #12345:**
+```bash
+cd /path/to/vllm
+git worktree add ../vllm-pr-12345 -b vllm-pr-12345
+cd ../vllm-pr-12345
+gh pr checkout 12345
 ```
 
 **CRITICAL SAFETY**: Never run code from the PR. It may contain untrusted code. Only read and analyze files.
 
-## 2. Gather PR Context
+## 2. Launch Claude Code in the Worktree
+
+After creating the worktree, **stop here** and provide the user with instructions to launch Claude Code in the new worktree:
+
+```
+I've created a git worktree for PR #<pr_number> at: <worktree_path>
+
+To continue the review in an isolated environment:
+
+1. Open a new terminal
+2. Navigate to the worktree: cd <worktree_path>
+3. Launch Claude Code: claude-code
+4. In the new Claude Code session, invoke the pr-review skill to continue the review
+
+This ensures we're reviewing the correct code in isolation.
+```
+
+**The remaining steps below are performed in the new Claude Code session within the worktree.**
+
+## 3. Gather PR Context
 
 **Fetch PR details:**
 ```bash
@@ -41,7 +75,7 @@ Look for review comments that:
 
 Flag these prominently in your review.
 
-## 3. Analyze Code Changes
+## 4. Analyze Code Changes
 
 **Get the diff:**
 ```bash
@@ -106,7 +140,7 @@ For comprehensive criteria, see `reference/review-checklist.md`. Key areas:
    - README updated if needed
    - Breaking changes documented
 
-## 4. Cross-Cutting Concerns
+## 5. Cross-Cutting Concerns
 
 **Check alignment with PR description:**
 - All described changes are present
@@ -123,7 +157,7 @@ For comprehensive criteria, see `reference/review-checklist.md`. Key areas:
 - No unrelated refactoring
 - Separate concerns properly
 
-## 5. Categorize Findings
+## 6. Categorize Findings
 
 Use the severity guide in `reference/severity-guide.md` to categorize each finding:
 
@@ -138,7 +172,7 @@ Be specific about:
 - How to fix it (or suggest approaches)
 - File and line references
 
-## 6. Generate Review Report
+## 7. Generate Review Report
 
 Write findings to `./pr_review_results.md` using the template in `templates/review-report.md`.
 
@@ -156,7 +190,7 @@ Write findings to `./pr_review_results.md` using the template in `templates/revi
 - Highlight what's done well
 - Provide actionable guidance
 
-## 7. Present to User
+## 8. Present to User
 
 After writing `./pr_review_results.md`, present:
 1. Summary of key findings
