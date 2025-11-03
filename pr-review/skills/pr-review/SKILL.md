@@ -144,6 +144,8 @@ For comprehensive criteria, see `reference/review-checklist.md`. Key areas:
    - Input validation present
    - No exposed secrets or credentials
    - Safe handling of user data
+   - **CRITICAL**: Check for `pull_request_target` + checkout of untrusted code pattern in workflows
+   - CI/CD workflows don't expose secrets or OIDC tokens to untrusted code
 
 5. **Performance**
    - No obvious performance issues

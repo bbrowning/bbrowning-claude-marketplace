@@ -23,6 +23,8 @@ Use this guide to consistently categorize findings during PR reviews. Each findi
 - Breaking change to widely-used API
 - Memory leak that grows unbounded
 - Removing authentication check
+- **GitHub Actions workflow using `pull_request_target` + checkout of untrusted code + `id-token: write`**
+- **CI/CD workflow that exposes secrets or OIDC tokens to untrusted code**
 
 **Characteristics**:
 - Blocks merge

