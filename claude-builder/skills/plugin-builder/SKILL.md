@@ -111,6 +111,76 @@ External tool integrations via Model Context Protocol.
 - Location: Specified in `mcpServers` field (points to .mcp.json)
 - Purpose: Connect external data sources and tools
 
+## Ensuring Consistency Between Commands and Skills
+
+**CRITICAL**: When a plugin contains both slash commands and skills that work together, they must provide consistent instructions. Inconsistencies cause Claude to follow the wrong workflow.
+
+### The Problem
+
+Slash commands execute first and provide initial instructions. If the command has different instructions than a skill it invokes, Claude will follow the command's approach instead of the skill's approach.
+
+**Example issue:**
+- Slash command says: "Clone the repository with `gh repo clone`"
+- Skill says: "Create a git worktree with `git worktree add`"
+- Result: Claude clones instead of using worktrees (following the command's instructions)
+
+### The Solution
+
+1. **Align workflows**: Ensure slash commands and skills describe the same approach
+2. **Avoid duplication**: Have the command reference the skill rather than duplicating instructions
+3. **Provide complete context**: When handing off to another Claude session, include all necessary details (what, where, what to skip)
+
+### Example: Correct Pattern
+
+**Slash command approach:**
+```markdown
+## 1. Setup
+Create git worktree following the standard workflow:
+[Include essential setup instructions]
+
+## 2. Launch New Session
+Provide user with complete context to continue:
+- What PR/task they're working on
+- Where the code is located
+- Which skill to invoke
+- What steps to skip (already completed)
+```
+
+**Skill approach:**
+```markdown
+## 1. Setup (if needed)
+[Same setup instructions as command]
+
+## 2. Continue workflow
+[Rest of the process]
+```
+
+### Portability Considerations
+
+**DON'T hardcode machine-specific paths:**
+```markdown
+# Bad: Assumes all users organize code the same way
+cd ~/src/<repo_name>
+```
+
+**DO use adaptable instructions:**
+```markdown
+# Good: Adapts to any user's setup
+First, check if the repository exists locally.
+Ask the user where they keep repositories if not found.
+```
+
+This keeps plugins portable across different users and environments.
+
+### Validation Checklist
+
+When creating or reviewing plugins with both commands and skills:
+- [ ] Commands and skills describe the same workflow approach
+- [ ] No hardcoded machine-specific paths
+- [ ] Handoffs between sessions include complete context
+- [ ] Instructions clearly state what steps to skip when already completed
+- [ ] Examples use generic paths, not specific to one developer
+
 ## Creating Your Plugin
 
 ### Choose Your Pattern
