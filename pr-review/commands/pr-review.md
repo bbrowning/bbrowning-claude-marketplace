@@ -41,17 +41,30 @@ gh pr checkout 12345
 
 **Share .claude configuration across worktrees:**
 
-After creating the worktree, run the configuration sharing script to set up `.claude/` access:
+After creating the worktree, set up `.claude/` configuration sharing:
 
 ```bash
 cd ../<repo_name>-pr-<pr_number>
-${CLAUDE_PLUGIN_ROOT}/pr-review/scripts/setup-worktree-claude-config.sh
+
+# Get main worktree path
+MAIN_WORKTREE=$(git worktree list --porcelain | awk '/^worktree/ {print $2; exit}')
+
+# If .claude exists in main worktree but is not committed to git, create symlink
+if [ -d "$MAIN_WORKTREE/.claude" ] && ! (cd "$MAIN_WORKTREE" && git ls-files --error-unmatch .claude >/dev/null 2>&1); then
+  echo "Creating .claude symlink to share configuration..."
+  rm -rf .claude 2>/dev/null || true
+  ln -s "$MAIN_WORKTREE/.claude" .claude
+  echo ".claude" >> .git/info/exclude
+  echo "Created symlink: .claude -> $MAIN_WORKTREE/.claude"
+elif (cd "$MAIN_WORKTREE" && git ls-files --error-unmatch .claude >/dev/null 2>&1); then
+  echo ".claude is committed to git - configuration shared automatically"
+fi
 ```
 
-This script:
+This approach:
 - Checks if `.claude/` directory exists in the main repository
-- If `.claude/` is committed to git: Reports that sharing happens automatically
-- If `.claude/` exists but is not committed (OSS projects):
+- If `.claude/` is committed to git: Configuration is shared automatically via git
+- If `.claude/` exists but not committed (OSS projects):
   - Creates a symlink from the worktree to the main worktree's `.claude/` directory
   - Adds `.claude` to `.git/info/exclude` to prevent accidental commits
 
