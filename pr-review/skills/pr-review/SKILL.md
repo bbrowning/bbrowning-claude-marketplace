@@ -65,7 +65,7 @@ To continue the review in an isolated environment:
 
 1. Open a new terminal
 2. Navigate to the worktree: cd <worktree_path>
-3. Launch Claude Code: claude-code
+3. Launch Claude Code: claude
 4. In the new Claude Code session, invoke the pr-review skill to continue the review
 
 This ensures we're reviewing the correct code in isolation.
