@@ -1,13 +1,20 @@
 # Claude Code Plugin Marketplace
 
-This marketplace contains the **claude-builder** plugin with skills for creating plugins, marketplaces, and skills.
+This marketplace contains the **bbrowning-claude** plugin - a curated collection of skills and commands for development, code review, and best practices.
 
 ## Available Skills
 
 When working with this codebase, use these skills for guidance:
+
+### Development & Documentation
 - **plugin-builder**: Guide for creating Claude Code plugins
 - **marketplace-builder**: Guide for creating and managing plugin marketplaces
 - **skill-builder**: Guide for writing high-quality Claude Code skills
+- **cross-repo-config**: Guide for organizing configuration across multiple repositories
+- **version-control-config**: Guide for version controlling ~/.claude directory
+
+### Code Review
+- **pr-review**: Structured pull request review with security analysis and actionable recommendations
 
 ## Key Technical Details
 

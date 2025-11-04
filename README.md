@@ -1,21 +1,24 @@
-# Claude Code Plugin Marketplace
+# bbrowning-claude Marketplace
 
-This is a personal Claude Code plugin marketplace for version control and sharing of custom plugins.
+Personal Claude Code plugin marketplace containing curated skills and commands for development, code review, and best practices.
 
 ## About This Marketplace
 
-This marketplace contains the following plugins:
+This marketplace contains the **bbrowning-claude** plugin, a consolidated collection of:
 
-### claude-builder
-Expert guidance for creating Claude Code skills, plugins, and marketplaces with specialized skills:
+### Development Skills
 - **plugin-builder**: Comprehensive guide for creating Claude Code plugins
 - **marketplace-builder**: Guide for creating and managing plugin marketplaces
 - **skill-builder**: Guide for writing high-quality Claude Code skills
 - **cross-repo-config**: Guide for organizing configuration across multiple repositories using three-tier architecture
 - **version-control-config**: Guide for version controlling ~/.claude directory with proper .gitignore setup
 
-### pr-review
-Plugin for reviewing pull requests with automated analysis and feedback.
+### Code Review Skills
+- **pr-review**: Structured pull request review with security analysis, backward compatibility checks, test coverage verification, and categorized findings
+
+### Commands
+- **/learn**: Capture learnings from sessions and save to appropriate configuration tier (global, plugin, or project-local)
+- **/pr-review**: Review GitHub pull requests with automated analysis and actionable recommendations
 
 ## Quick Start
 
@@ -24,35 +27,53 @@ Plugin for reviewing pull requests with automated analysis and feedback.
 /plugin marketplace add /path/to/bbrowning-claude-marketplace
 ```
 
-### Installing Plugins
+### Installing the Plugin
 ```bash
-# Install the claude-builder plugin
-/plugin install claude-builder@bbrowning-claude-marketplace
-
-# Install the pr-review plugin
-/plugin install pr-review@bbrowning-claude-marketplace
+# Install the bbrowning-claude plugin
+/plugin install bbrowning-claude@bbrowning-marketplace
 
 # Browse all available plugins interactively
 /plugin
 ```
 
-## Command Reference
+## Using the Plugin
 
-### Managing Installed Plugins
+Once installed, all skills and commands are available:
+
+### Skills
+Skills are automatically invoked by Claude Code when relevant to your task:
+- Creating plugins? The `plugin-builder` skill provides guidance
+- Creating marketplaces? The `marketplace-builder` skill helps
+- Writing skills? The `skill-builder` skill offers best practices
+- Managing configuration? The `cross-repo-config` skill shows the way
+- Reviewing PRs? The `pr-review` skill structures the analysis
+
+### Commands
+Execute commands directly:
 ```bash
-# Enable/disable plugins
-/plugin enable plugin-name@marketplace-name
-/plugin disable plugin-name@marketplace-name
+# Review a pull request
+/pr-review <pr-number>
 
-# Uninstall a plugin
-/plugin uninstall plugin-name@marketplace-name
+# Capture learnings from this session
+/learn
+```
+
+## Managing the Plugin
+
+```bash
+# Enable/disable the plugin
+/plugin enable bbrowning-claude@bbrowning-marketplace
+/plugin disable bbrowning-claude@bbrowning-marketplace
+
+# Uninstall the plugin
+/plugin uninstall bbrowning-claude@bbrowning-marketplace
 ```
 
 ### Development Workflow
 ```bash
-# After modifying a plugin, reload it:
-/plugin uninstall plugin-name@marketplace-name
-/plugin install plugin-name@marketplace-name
+# After modifying the plugin, reload it:
+/plugin uninstall bbrowning-claude@bbrowning-marketplace
+/plugin install bbrowning-claude@bbrowning-marketplace
 
 # Or restart Claude Code to reload all plugins
 ```
@@ -65,13 +86,13 @@ claude --debug
 
 ## Creating Plugins and Marketplaces
 
-For detailed guidance on creating plugins, marketplaces, or skills, use the appropriate skill from the claude-builder plugin:
+For detailed guidance on creating plugins, marketplaces, or skills, the bbrowning-claude plugin provides specialized skills:
 
-- **Creating a plugin?** Use the `plugin-builder` skill
-- **Creating a marketplace?** Use the `marketplace-builder` skill
-- **Writing a skill?** Use the `skill-builder` skill
+- **Creating a plugin?** The `plugin-builder` skill provides comprehensive guidance
+- **Creating a marketplace?** The `marketplace-builder` skill walks you through it
+- **Writing a skill?** The `skill-builder` skill offers best practices and templates
 
-These skills provide comprehensive, step-by-step guidance without duplicating information.
+These skills provide step-by-step guidance with progressive context reveal.
 
 ## Essential Quick Reference
 
@@ -116,4 +137,4 @@ my-marketplace/
 4. **Paths**: Always use relative paths starting with `./`
 5. **Versioning**: Follow semantic versioning (MAJOR.MINOR.PATCH)
 
-For everything else, use the claude-builder skills.
+For everything else, use the skills included in the bbrowning-claude plugin.
