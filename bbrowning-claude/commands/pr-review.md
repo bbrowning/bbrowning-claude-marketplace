@@ -1,5 +1,6 @@
 ---
 description: Review a pull request
+allowed-tools: Read, Grep, Glob, Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh pr checks:*), Bash(gh pr checkout:*), Bash(git worktree:*), Bash(cd:*), Bash(pwd:*), Skill
 ---
 
 # Pull Request Review
