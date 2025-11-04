@@ -8,7 +8,35 @@ allowed-tools: Read, Grep, Glob, Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh
 
 This skill guides comprehensive PR reviews using the GitHub CLI and local code analysis.
 
+## 0. Parse PR Reference (Skip if already in worktree)
+
+**If the user provides a PR reference** (URL, org/repo#number, etc.), parse it to extract:
+- GitHub organization
+- Repository name
+- PR number
+
+**Supported formats:**
+- `<github_org>/<github_repo>/pull/<pull_request_number>`
+- `<github_org>/<github_repo>#<pull_request_number>`
+- Full github.com URL pointing to a specific pull request
+
+**Confirm with the user** before proceeding:
+```
+PR to Review: <github_org>/<github_repo>#<pr_number>
+
+I'll create an isolated git worktree for this review. Proceed?
+```
+
+**If already in a worktree** (user mentions "already in worktree" or "skip to step 3"), skip directly to step 3 (Gather PR Context).
+
 ## 1. Creating a Git Worktree for the PR
+
+**Determine the repository location:**
+
+First, check if the repository exists locally on this machine:
+- Look in common source code locations (~/src/, ~/repos/, etc.)
+- Use the user's machine-specific path configuration if available
+- If the repository doesn't exist locally, ask the user if they want to clone it first or provide the path
 
 **Create a new worktree with the PR checked out:**
 
@@ -60,20 +88,41 @@ fi
 
 ## 2. Launch Claude Code in the Worktree
 
-After creating the worktree, **stop here** and provide the user with instructions to launch Claude Code in the new worktree:
+After creating the worktree, **stop here** and provide the user with instructions to launch Claude Code in the new worktree.
+
+**CRITICAL**: Include ALL relevant skills that were loaded in the current session in the handoff prompt. This ensures the new Claude Code session has the full context needed for the review.
+
+### Determining Relevant Skills
+
+Before providing handoff instructions, identify which skills were loaded for this review:
+
+1. **pr-review skill**: Always relevant (this skill)
+2. **Repository-specific skills**: Any skills matching the repository being reviewed (e.g., llama-stack, vllm)
+3. **Domain-specific skills**: Any skills relevant to the PR content (e.g., auth-security for authentication/authorization code)
+
+**Example**: For a llama-stack PR, both `pr-review` and `llama-stack` skills would be relevant.
+
+### Handoff Instruction Template
 
 ```
-I've created a git worktree for PR #<pr_number> at: <worktree_path>
+I've created a git worktree for PR #<pr_number> (<github_org>/<github_repo>) at: <worktree_path>
 
 To continue the review in an isolated environment:
 
 1. Open a new terminal
 2. Navigate to the worktree: cd <worktree_path>
 3. Launch Claude Code: claude
-4. In the new Claude Code session, invoke the pr-review skill to continue the review
+4. In the new Claude Code session, provide this prompt:
 
-This ensures we're reviewing the correct code in isolation.
+   > Review PR #<pr_number> for <github_org>/<github_repo>. I'm already in a git worktree with the PR checked out. Use [list ALL relevant skills: pr-review, <repo-specific>, <domain-specific>] and skip directly to step 3 (Gather PR Context) since the worktree is already set up.
+
+This ensures we're reviewing the correct code in isolation with all necessary context.
 ```
+
+**Why this matters:**
+- Repository-specific skills contain critical domain knowledge (e.g., llama-stack's recordings/ handling, distributed systems concerns)
+- Domain-specific skills provide specialized security or technical guidance
+- Without all skills, the review loses important context and may miss critical issues
 
 **The remaining steps below are performed in the new Claude Code session within the worktree.**
 
