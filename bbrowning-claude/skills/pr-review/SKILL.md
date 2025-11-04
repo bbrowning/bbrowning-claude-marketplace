@@ -302,33 +302,42 @@ git branch -D <repo_name>-pr-<pr_number>
 - The worktree was for review only (no development work)
 - The PR branch still exists on GitHub
 
-## Repository-Specific Customization
+## Repository-Specific Skills
 
-This skill supports repository-specific review criteria. When reviewing PRs, check if custom guidelines exist for the repository.
+**IMPORTANT**: After gathering PR context and determining which repository is being reviewed, check for repository-specific skills that provide specialized review guidance.
 
-### Adding Custom Guidelines
+### Discovering Repository-Specific Skills
 
-To add repository-specific rules:
+1. **Identify the repository** from the PR context (e.g., `llamastack/llama-stack`, `vllm-project/vllm`)
+2. **Search for matching skills** using common repository identifiers:
+   - Repository name (e.g., "llama-stack", "vllm")
+   - Organization name (e.g., "llamastack")
+   - Project name variations
+3. **Invoke repository-specific skill** if found, using the Skill tool
+4. **Apply specialized guidance** from the skill throughout your review
 
-1. Identify the repository pattern (org/repo)
-2. Add a section below with specific criteria
-3. Include architecture patterns, conventions, or requirements
+### Example: Reviewing a Llama Stack PR
 
-### Example: Custom Repository Rules
+```
+1. Gather PR context → Determine repository is "llamastack/llama-stack"
+2. Check for skills → Find "Reviewing Llama Stack Code" skill
+3. Invoke skill → Use Skill tool with "bbrowning-claude:llama-stack"
+4. Apply guidance → Use Llama Stack-specific patterns in review
+```
 
-**For llamastack/llama-stack:**
-- Verify API changes maintain backward compatibility
-- Check distributed system considerations (race conditions, eventual consistency)
-- Ensure proper error propagation across component boundaries
-- Validate integration points follow established patterns
-- Confirm performance impact is acceptable for distributed workloads
+### Benefits of Repository-Specific Skills
 
-**For your-org/your-repo:**
-- Add your specific criteria here
-- Architecture patterns to verify
-- Testing requirements
-- Documentation standards
-- Performance benchmarks
+- **Specialized knowledge**: Project-specific architecture patterns and conventions
+- **Critical gotchas**: Common mistakes specific to that codebase
+- **Review focus**: What matters most for that particular project
+- **Efficiency**: Pre-encoded knowledge from previous reviews
+
+### When No Repository-Specific Skill Exists
+
+If no specialized skill is found:
+- Proceed with general code review criteria
+- Consider creating a repository-specific skill if you identify recurring patterns
+- Document project-specific observations for future reference
 
 ## Common Pitfalls to Avoid
 
@@ -342,9 +351,11 @@ To add repository-specific rules:
 
 Before completing the review, ensure:
 - [ ] PR context gathered (description, comments, reviews)
+- [ ] Repository identified and repository-specific skill invoked if available
 - [ ] All changed files examined
 - [ ] Unaddressed comments identified
 - [ ] All review checklist areas covered
+- [ ] Repository-specific patterns validated (if applicable)
 - [ ] Findings categorized by severity
 - [ ] Review report written to `./pr_review_results.md`
 - [ ] Specific file:line references included
@@ -360,7 +371,17 @@ This skill is designed to be customized:
 1. **Add review criteria**: Edit `reference/review-checklist.md`
 2. **Adjust severity definitions**: Modify `reference/severity-guide.md`
 3. **Customize report format**: Update `templates/review-report.md`
-4. **Add repository rules**: Add sections to this file or create repository-specific reference files
+4. **Add repository-specific guidance**: Create new repository-specific skills (e.g., `llama-stack`, `vllm`) rather than modifying this skill
 5. **Security guidelines**: For authentication and authorization security, use the `auth-security` skill
+
+### Creating Repository-Specific Skills
+
+For repositories you frequently review, create dedicated skills:
+
+1. Use the `skill-builder` skill for guidance on creating skills
+2. Name the skill after the repository (e.g., "Reviewing Llama Stack Code")
+3. Include in the description: repository name, common variations, and "PR review" or "code review"
+4. Document architecture patterns, testing conventions, and critical gotchas
+5. The pr-review skill will automatically discover and invoke it
 
 The goal is a thorough, actionable review that helps maintain code quality while being respectful and constructive.
