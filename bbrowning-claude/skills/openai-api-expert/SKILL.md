@@ -104,18 +104,58 @@ For detailed validation:
 
 ## Searching the Specification Effectively
 
-The OpenAPI YAML specification is the authoritative source. Use these techniques to search it efficiently:
+The OpenAPI YAML specification is the authoritative source. The most effective approach is to download it locally and search it directly.
 
-### Specification Organization
+### Recommended Approach: Download and Search Locally
+
+**This is the MOST EFFECTIVE method for searching the OpenAI API spec:**
+
+1. **Download the spec locally**:
+   ```bash
+   curl -o openai-spec.yml https://app.stainless.com/api/spec/documented/openai/openapi.documented.yml
+   ```
+
+2. **Use Grep to find all occurrences** of relevant terms:
+   ```bash
+   # Case-insensitive search with line numbers and context
+   Grep pattern="MCP" path="openai-spec.yml" output_mode="content" -i=true
+   ```
+
+3. **Read specific sections** using line numbers from Grep results:
+   ```bash
+   Read file_path="openai-spec.yml" offset=42619 limit=100
+   ```
+
+4. **Iteratively refine searches** as needed without network overhead
+
+**Why this works better:**
+- ✅ No WebFetch limitations or timeouts
+- ✅ Can search multiple times instantly (local file)
+- ✅ Grep finds ALL occurrences, not just what WebFetch extracts
+- ✅ Can examine exact line numbers and surrounding context
+- ✅ No reliance on AI summarization of spec content
+- ✅ Can verify findings by reading exact schema definitions
+
+**When to use this approach:**
+- Searching for specific schemas (e.g., MCPTool, ChatCompletion)
+- Finding all references to a feature (e.g., all "authorization" occurrences)
+- Examining exact field definitions and types
+- Any detailed technical investigation of the API
+
+### Alternative: WebFetch (Less Reliable)
+
+If you cannot download the spec locally, WebFetch can be used but has limitations:
+
+#### Specification Organization
 
 The spec uses standard OpenAPI structure:
 - **`components/schemas/`**: All type definitions (e.g., `MCPTool`, `ChatCompletion`)
 - **`paths/`**: Endpoint definitions and operations
 - **Request/response schemas**: Referenced via `$ref` to components
 
-### Effective Search Strategy
+#### WebFetch Search Strategy
 
-1. **Use precise technical terms** in WebFetch prompts:
+1. **Use precise technical terms** in prompts:
    - Schema names: "MCPTool schema definition", "ChatCompletion schema"
    - Exact field names: "authorization field", "server_url parameter"
    - Component paths: "components/schemas/MCPTool"
@@ -133,28 +173,32 @@ The spec uses standard OpenAPI structure:
 ### What Doesn't Work
 
 **Avoid these ineffective patterns:**
+- ❌ Multiple WebFetch attempts when local download would work better
 - ❌ Vague prompts: "search for OAuth token handling"
-- ❌ Jumping to web searches when first fetch doesn't work
+- ❌ Jumping to web searches when spec search doesn't work
 - ❌ Relying on secondary documentation without spec verification
 - ❌ Using general terms instead of schema/component names
 
 **Use these effective patterns:**
-- ✅ Specific prompts: "find MCPTool schema definition with authorization field"
-- ✅ Multiple attempts on the official spec before searching elsewhere
-- ✅ Exact field names and component paths
+- ✅ **Download spec locally and use Grep** (BEST approach)
+- ✅ Specific prompts if using WebFetch: "find MCPTool schema definition with authorization field"
+- ✅ Read exact line numbers from Grep results
 - ✅ Verify findings against the authoritative spec
 
 ### Example: Finding MCPTool Schema
 
 **Ineffective approach:**
-1. Fetch spec with vague prompt: "search for OAuth tokens and MCP"
-2. When that fails, search web for "OpenAI MCP OAuth"
-3. Find outdated blog posts with incomplete information
+1. Use WebFetch with vague prompt: "search for OAuth tokens and MCP"
+2. When that fails, try different WebFetch prompts
+3. When that fails, search web for "OpenAI MCP OAuth"
+4. Find outdated blog posts with incomplete information
 
 **Effective approach:**
-1. Fetch spec: "find components/schemas/MCPTool definition"
-2. If needed, try: "search for MCPTool, authorization field, server_url"
-3. Verify exact field definitions and descriptions in the spec
+1. Download spec: `curl -o openai-spec.yml https://app.stainless.com/api/spec/documented/openai/openapi.documented.yml`
+2. Search for all MCP references: `Grep pattern="MCP" path="openai-spec.yml" output_mode="content" -i=true`
+3. Identify relevant line numbers (e.g., line 42619 for MCPTool schema)
+4. Read exact schema: `Read file_path="openai-spec.yml" offset=42619 limit=100`
+5. Examine complete field definitions including `authorization`, `headers`, `server_url`, etc.
 
 ## Usage in Code Reviews
 

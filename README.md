@@ -13,8 +13,13 @@ This marketplace contains the **bbrowning-claude** plugin, a consolidated collec
 - **cross-repo-config**: Guide for organizing configuration across multiple repositories using three-tier architecture
 - **version-control-config**: Guide for version controlling ~/.claude directory with proper .gitignore setup
 
-### Code Review Skills
+### Code Review & Security Skills
 - **pr-review**: Structured pull request review with security analysis, backward compatibility checks, test coverage verification, and categorized findings
+- **auth-security**: Comprehensive security guidance for authentication and authorization code, covering JWT validation, OAuth 2.0/2.1, PKCE, and common vulnerabilities
+
+### API & Integration Skills
+- **openai-api-expert**: Expert validation of OpenAI API implementations against the official API specification, covering all endpoints including chat completions, embeddings, audio, and assistants
+- **plugin-source-locator**: Find source code locations of installed plugins by tracing installation paths
 
 ### Commands
 - **/learn**: Capture learnings from sessions and save to appropriate configuration tier (global, plugin, or project-local)
@@ -47,6 +52,8 @@ Skills are automatically invoked by Claude Code when relevant to your task:
 - Writing skills? The `skill-builder` skill offers best practices
 - Managing configuration? The `cross-repo-config` skill shows the way
 - Reviewing PRs? The `pr-review` skill structures the analysis
+- Reviewing auth code? The `auth-security` skill identifies vulnerabilities
+- Validating OpenAI API usage? The `openai-api-expert` skill checks against the official spec
 
 ### Commands
 Execute commands directly:

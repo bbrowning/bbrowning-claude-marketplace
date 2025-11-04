@@ -13,8 +13,12 @@ When working with this codebase, use these skills for guidance:
 - **cross-repo-config**: Guide for organizing configuration across multiple repositories
 - **version-control-config**: Guide for version controlling ~/.claude directory
 
-### Code Review
+### Code Review & Security
 - **pr-review**: Structured pull request review with security analysis and actionable recommendations
+- **auth-security**: Comprehensive security guidance for authentication and authorization code
+
+### API & Integration
+- **openai-api-expert**: Expert validation of OpenAI API implementations against official specification
 
 ## Key Technical Details
 
