@@ -5,14 +5,9 @@
   },
   "plugins": [
     {
-      "name": "claude-builder",
-      "source": "./claude-builder",
-      "description": "Expert guidance for creating Claude Code skills, plugins, and marketplaces with best practices and progressive context reveal"
-    },
-    {
-      "name": "pr-review",
-      "source": "./pr-review",
-      "description": "Plugin for reviewing pull requests"
+      "name": "bbrowning-claude",
+      "source": "./bbrowning-claude",
+      "description": "Personal curated collection of Claude Code skills and commands for development, code review, and best practices"
     }
   ]
 }

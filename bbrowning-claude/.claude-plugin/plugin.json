@@ -1,0 +1,23 @@
+{
+  "name": "bbrowning-claude",
+  "version": "1.0.0",
+  "description": "Personal curated collection of Claude Code skills and commands for development, code review, and best practices",
+  "author": {
+    "name": "Benjamin Browning"
+  },
+  "keywords": [
+    "skills",
+    "plugins",
+    "marketplaces",
+    "development",
+    "best-practices",
+    "pull-request",
+    "review",
+    "github",
+    "code-review"
+  ],
+  "repository": "https://github.com/bbrowning/bbrowning-claude-marketplace",
+  "license": "Apache-2.0",
+  "commands": ["./commands"],
+  "skills": ["./skills"]
+}
