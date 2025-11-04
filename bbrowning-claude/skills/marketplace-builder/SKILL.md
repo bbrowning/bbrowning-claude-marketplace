@@ -1,6 +1,6 @@
 ---
 name: Creating and Managing Plugin Marketplaces
-description: Use when creating, editing, updating, reviewing, or managing Claude Code plugin marketplaces (marketplace.json, .claude-plugin directories). Provides expert guidance on marketplace structure, manifest configuration, plugin organization, versioning, and distribution workflows via git repositories.
+description: Use before creating or editing marketplace.json files, setting up marketplace repositories, or when user asks about plugin distribution. Provides expert guidance on marketplace structure, manifest configuration, plugin organization, semantic versioning, and git-based distribution workflows. Invoke when working with marketplace files or discussing how to share multiple plugins to ensure correct manifest structure and installation compatibility.
 ---
 
 # Claude Code Marketplace Builder

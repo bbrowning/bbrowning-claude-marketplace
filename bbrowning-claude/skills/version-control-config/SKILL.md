@@ -1,6 +1,6 @@
 ---
 name: Version Controlling Global Configuration
-description: Guide for setting up git version control for ~/.claude directory, ensuring only portable settings are tracked while excluding logs, session data, and machine-specific plugin metadata
+description: Use when user asks about version controlling ~/.claude directory or syncing Claude Code settings across machines. Provides git setup instructions and .gitignore patterns to track only portable settings while excluding logs, session data, and machine-specific plugin metadata. Invoke before initializing git in ~/.claude to prevent committing non-portable data.
 ---
 
 # Version Controlling Claude Code Global Configuration

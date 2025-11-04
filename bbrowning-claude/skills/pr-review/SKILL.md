@@ -1,6 +1,6 @@
 ---
 name: Reviewing Pull Requests
-description: Review GitHub pull requests with structured analysis of code quality, backward compatibility, security, test coverage, and unaddressed comments. Provides categorized findings (Critical/High/Medium/Low) with actionable recommendations. Use when analyzing code changes in pull requests.
+description: Use when user mentions reviewing PRs, provides GitHub PR URLs/numbers, or discusses code review. Provides structured analysis of code quality, backward compatibility, security issues, test coverage, and unaddressed comments with categorized findings (Critical/High/Medium/Low). Creates isolated git worktree for safe review, ensures comprehensive security analysis, and generates actionable recommendations. Invoke before analyzing any pull request changes.
 allowed-tools: Read, Grep, Glob, Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh pr checks:*), Bash(gh pr checkout:*), Bash(git worktree:*), Bash(cd:*), Bash(pwd:*)
 ---
 

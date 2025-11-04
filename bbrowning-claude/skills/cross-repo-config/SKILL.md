@@ -1,6 +1,6 @@
 ---
 name: Managing Cross-Repository Configuration
-description: Guide for organizing Claude Code configuration, skills, and learnings across multiple repositories. Covers the three-tier architecture (global, plugin, project-local) and decision criteria for where to store different types of configuration and knowledge.
+description: Use when user asks where to put configuration, skills, or learnings, or discusses sharing config across projects. Provides decision criteria for the three-tier architecture (global ~/.claude, plugin, project-local .claude) to prevent duplication and ensure reusability. Invoke before creating new skills or configuration to determine the correct tier and location.
 ---
 
 # Managing Cross-Repository Configuration

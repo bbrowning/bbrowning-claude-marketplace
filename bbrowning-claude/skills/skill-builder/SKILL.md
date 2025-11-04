@@ -1,6 +1,6 @@
 ---
 name: Creating and Editing Claude Skills
-description: Use when creating, editing, updating, reviewing, or improving Claude Code skills (SKILL.md files). Provides expert guidance on skill structure, descriptions, progressive context reveal, and best practices for effective skill development.
+description: Use before creating or editing any SKILL.md files, and immediately after making skill changes to verify quality. Invoked when user asks about skill structure, descriptions, or best practices. Provides expert guidance on naming, descriptions for discoverability, progressive context reveal, and validation workflows. Critical for ensuring skills are discoverable and effective - prevents poorly structured skills that Claude won't use properly.
 ---
 
 # Writing Claude Skills

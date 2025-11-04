@@ -1,6 +1,6 @@
 ---
 name: Creating and Editing Claude Plugins
-description: Use when creating, editing, updating, reviewing, or improving Claude Code plugins (plugin.json, .claude-plugin directories). Provides expert guidance on plugin structure, manifest configuration, component organization, versioning, and best practices for shareable functionality.
+description: Use before creating or editing plugin.json manifests, organizing .claude-plugin directories, or when user asks about plugin structure, versioning, or distribution. Provides expert guidance on manifest configuration, component organization, semantic versioning, and shareable plugin best practices. Invoke when working with any plugin files or discussing plugin architecture to ensure correct structure and discoverability.
 ---
 
 # Building Claude Code Plugins
