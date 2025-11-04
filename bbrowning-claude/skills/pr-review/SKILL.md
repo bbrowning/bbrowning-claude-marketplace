@@ -8,26 +8,26 @@ allowed-tools: Read, Grep, Glob, Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh
 
 This skill guides comprehensive PR reviews using the GitHub CLI and local code analysis.
 
-## 0. Parse PR Reference (Skip if already in worktree)
+## 0. Determine Starting Point
 
-**If the user provides a PR reference** (URL, org/repo#number, etc.), parse it to extract:
-- GitHub organization
-- Repository name
-- PR number
+**When this skill is invoked:**
 
-**Supported formats:**
+1. **If user is already in a PR worktree** (mentions "already in worktree", "skip to step 3", or "skip worktree setup"):
+   - Skip directly to **step 3** (Gather PR Context)
+   - Assume worktree is set up correctly
+   - Proceed with the review
+
+2. **If user provides a PR reference** (URL, org/repo#number, etc.) and is NOT in a worktree:
+   - Parse the PR reference (see formats below)
+   - Confirm with user before creating worktree
+   - Proceed to **step 1** (Create worktree)
+
+**Supported PR reference formats:**
 - `<github_org>/<github_repo>/pull/<pull_request_number>`
 - `<github_org>/<github_repo>#<pull_request_number>`
 - Full github.com URL pointing to a specific pull request
 
-**Confirm with the user** before proceeding:
-```
-PR to Review: <github_org>/<github_repo>#<pr_number>
-
-I'll create an isolated git worktree for this review. Proceed?
-```
-
-**If already in a worktree** (user mentions "already in worktree" or "skip to step 3"), skip directly to step 3 (Gather PR Context).
+**Note**: For setting up worktrees, you can also use the `/pr-review` slash command which handles the setup workflow and provides handoff instructions.
 
 ## 1. Creating a Git Worktree for the PR
 
@@ -88,9 +88,16 @@ fi
 
 ## 2. Launch Claude Code in the Worktree
 
-After creating the worktree, **stop here** and provide the user with instructions to launch Claude Code in the new worktree.
+After creating the worktree, **STOP HERE**. Do NOT continue to step 3 in this session.
 
-**CRITICAL**: Include ALL relevant skills that were loaded in the current session in the handoff prompt. This ensures the new Claude Code session has the full context needed for the review.
+**CRITICAL HANDOFF POINT**: You must provide the user with instructions to launch a NEW Claude Code session in the worktree. The review MUST happen in a fresh session in the worktree directory, NOT in the current session.
+
+**Why this matters:**
+- Fresh context focused only on PR changes
+- Correct working directory for running tests and examining code
+- Isolation from the original repository/marketplace
+
+**IMPORTANT**: Include ALL relevant skills that were loaded in the current session in the handoff prompt. This ensures the new Claude Code session has the full context needed for the review.
 
 ### Determining Relevant Skills
 
@@ -103,6 +110,8 @@ Before providing handoff instructions, identify which skills were loaded for thi
 **Example**: For a llama-stack PR, both `pr-review` and `llama-stack` skills would be relevant.
 
 ### Handoff Instruction Template
+
+**IMPORTANT**: Only provide the plain text prompt below. Do NOT invent or reference non-existent slash commands (like `/continue-pr-review`). The only real slash command is `/bbrowning-claude:pr-review` which was already used to set up the worktree.
 
 ```
 I've created a git worktree for PR #<pr_number> (<github_org>/<github_repo>) at: <worktree_path>
@@ -124,7 +133,15 @@ This ensures we're reviewing the correct code in isolation with all necessary co
 - Domain-specific skills provide specialized security or technical guidance
 - Without all skills, the review loses important context and may miss critical issues
 
-**The remaining steps below are performed in the new Claude Code session within the worktree.**
+---
+
+**⚠️ STOP: The steps below (3-9) are ONLY performed in the NEW Claude Code session within the worktree.**
+
+**If you just created a worktree in step 1-2, DO NOT proceed to step 3. Provide handoff instructions and wait for the user to start a new session.**
+
+**If you're in a fresh session and the user says "already in worktree" or "skip to step 3", then proceed with step 3.**
+
+---
 
 **IMPORTANT**: Remember to clean up the worktree after completing the review (see section 9 below).
 
