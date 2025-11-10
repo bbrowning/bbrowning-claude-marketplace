@@ -108,6 +108,25 @@ Use for executable utilities that perform deterministic operations:
 - Provide clear output/error messages
 - Make scripts idempotent when possible
 - Document script usage in SKILL.md or reference files
+- Make scripts executable: `chmod +x scripts/script.py`
+- Include proper shebang: `#!/usr/bin/env python3`
+
+**Referencing scripts in SKILL.md**:
+- Use **relative paths** from SKILL.md location: `[script.py](scripts/script.py)`
+- Use **standard Markdown link syntax** for Claude to reference
+- In bash code blocks, use **full absolute paths** for execution examples
+- **NO special @ syntax** needed
+
+Example in SKILL.md:
+```markdown
+### compare_runs.py
+
+Run [scripts/compare_runs.py](scripts/compare_runs.py) to compare test results:
+
+```bash
+.claude/skills/bfcl-results/scripts/compare_runs.py baseline/ modified/ test_name
+```
+```
 
 #### `templates/`
 Use for starter files and examples:
